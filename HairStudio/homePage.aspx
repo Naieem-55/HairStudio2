@@ -4,22 +4,43 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <section>
-        <div style="position: relative">
-            <img src="images/banner3.jpg" class="img-fluid">
-            <div style="position: absolute; top: 30%; left: 30%; font-size: 120px; font-style: italic; color: #b3ffff"  class="caption text-center">Hair Studio</div>
-            <div style="position: absolute; top: 55%; left: 30%; font-size: 35px; font-style: oblique; color: #4ddbff"  class="caption text-center">Hair your style is the style of your life</div>
+
+    <%--Home Page Section here--%>
+
+    <section style="background-color:antiquewhite">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <p style="text-align:center;font-size:45px;font-style:italic;color:aqua">Hair Studio</p>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="images/banner3.jpg" class="img-fluid">
+                </div>
+            </div>
+
+            <div class="row">          
+                <div class="col-md-12">
+                    <p style="text-align:center;font-size:20px;font-style:italic;color:darkturquoise";>Style your hair is the style of your life.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section>
-        <div class="container">
+    <%--Features Section Here--%>
+
+    <section  style="background-color:aliceblue">
+        <div class="container-fluid">
 
             <div class="row">
                 <div class="col-12">
                     <center>
-                    <p><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Features</p>
-                    <h2> <b>Why Choose Us</b></h2>
+                    <p style="font-size:40px;color:aqua"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Features</p>
+                    <h2 style="color:cadetblue"> <b>Why Choose Us</b></h2>
                     </center>
                 </div>
             </div>
@@ -61,5 +82,177 @@
 
         </div>
     </section>
+
+    <%--Service Section Here--%>
+
+    <section style="background-color:antiquewhite">
+        <div class="container-fluid">
+
+            <div class="row">
+
+                   <div class="col-md-12" style="font-size:40px;color:aqua;font-style:italic;text-align:center">Services</div>
+                   <div class="col-md-12" style="font-size:20px;color:cadetblue;font-style:italic;text-align:center">We Provide Better</div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <center style="margin-top:30px;margin-bottom:30px">
+                        <img  width="450px" src="images/pic-1.jpg" class="rounded"/>
+                        <i><h4>Hair Style | Unique Hair Style</h4></i>
+                    </center>
+                </div>
+
+                <div class="col-md-6">
+                    <center style="margin-top:30px;margin-bottom:30px">
+                        <img width="450px" src="images/pic-2.jpg" class="rounded"/>
+                        <i><h4>Beared Trim | Handsome Beared Triming</h4></i>
+                    </center>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <center style="margin-top:30px;margin-bottom:30px">
+                        <img width="450px"  src="images/pic-3.jpg" class="rounded"/>
+                       <i><h4>Hair Cut | Awsome Hair Cutting</h4></i>
+                    </center>
+                </div>
+
+                <div class="col-md-6">
+                    <center style="margin-top:30px;margin-bottom:30px">
+                        <img width="450px"  src="images/pic-4.jpg"  class="rounded"/>
+                        <i><h4>Dry Shampoo | Net & Clean Shampoo</h4></i>
+                    </center>
+                </div>
+
+            </div>
+
+            
+        </div>
+    </section>
+
+    <%--Testimonial Section Here--%>
+
+    <section style="background-color:aliceblue">
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <div class="col-md-12" style="font-size: 40px; color: aqua; font-style: italic; text-align: center">Testmonials</div>
+                <div class="col-md-12" style="font-size: 20px; color: cadetblue; font-style: italic; text-align: center">What Our Client Says</div>
+
+            </div>
+
+            <div class="row" style="margin-top:30px;margin-bottom:30px">
+                <div class="col-md-4">
+                    <center>
+                        <img src="images/img-1.jpg" width="180px" height="185px" class="rounded"/> 
+                        <p><b>ANDERSON PITTER</b><i class="fa-brands fa-twitter"></i></p>
+                        <p style="color:darkblue">@anderson_pitter</p>
+                        <q><i>After visiting the branch today I left extremely happy with my new colour and rehreshment, Thank you.</i></q>
+                    </center>
+                </div>
+
+                <div class="col-md-4">
+                    <center>
+                        <img src="images/img-2.jpg" width="180px" height="185px" class="rounded" />
+                        <p><b>KELVIN JUNIOR</b><i class="fa-brands fa-twitter"></i></p>
+                        <p style="color:darkblue">@kelvin_junior</p>
+                        <q><i>Thrilled to bits with my haircut this afternoon from Sai at Marlow (Saturday) Really good cut.</i></q>
+                    </center>
+                </div>
+
+                <div class="col-md-4">
+                    <center>
+                        <img src="images/img-3.jpg" width="180px" height="185px" class="rounded" />
+                        <p><b>MARK WOOD</b><i class="fa-brands fa-twitter"></i></p>
+                        <p style="color:darkblue">@mark_wood</p>
+                        <q><i>Another excellent & professional Cut at Tring this morning, by your very experienced (new boy)… Harry</i></q>
+                    </center>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <%--Contact Section Here--%>
+
+    <section style="background-color:antiquewhite">
+        <div class="container-fluid">
+
+            <div class="row" style="margin-top:30px;margin-bottom:40px">
+                <div class="col-md-12" style="font-size: 40px; color: aqua; font-style: italic; text-align: center">Visit Shop Today</div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <center>
+                        <p><b>PLATFORM</b></p>
+                        <p><asp:LinkButton runat="server">Why We're Different</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server">Pricing</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server">Payments</asp:LinkButton></p>
+
+                    </center>
+                </div>
+
+                <div class="col-md-3">
+                    <center>
+                         <p><b>FEATURES</b></p>
+                        <p><asp:LinkButton runat="server">Calender & Scheduling</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server">Online Booking</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server">Express Booking</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server">Membership & Packages</asp:LinkButton></p>
+
+                    </center>
+                </div>
+
+                <div class="col-md-3">
+                    <center>
+                         <p><b>RESOURCES</b></p>
+                        <p><asp:LinkButton runat="server">Our Customers</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server">About Us</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server">Contact Us</asp:LinkButton></p>
+
+                    </center>
+                </div>
+
+                <div class="col-md-3">
+                    <center>
+                        <p><b>FOLLOW US</b></p>
+                        <p><asp:LinkButton runat="server">Facebook</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server">Instagram</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server">Telegram</asp:LinkButton></p>
+
+                    </center>
+                </div>
+
+            </div>
+
+            <div class="row" style="margin-top:40px;margin-bottom:40px">
+                <div class="col-md-12">
+                    <center>
+                        <p style="font-size:40px"><b><i>Hair Studio</i></b></p>
+                    </center>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:40px;margin-bottom:40px">
+                <div class="col-md-12">
+                    <center>
+                         <p><i>Our hair studio website specializes in delivering cutting-edge styles and personalized consultations by a team of expert stylists.</i> </p>
+                        <p><i>From trendy haircuts to vibrant color treatments, we are dedicated to providing exceptional salon services that cater to your unique style and exceed your expectations.</i></p>
+                         <p><i>Experience the difference at our hair studio today.</i></p>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 </asp:Content>
