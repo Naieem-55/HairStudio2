@@ -69,6 +69,7 @@
   <ItemGroup>
     <Content Include="aboutUs.aspx" />
     <Content Include="adminLogin.aspx" />
+    <Content Include="adminManagement.aspx" />
     <Content Include="bootstrap\css\bootstrap.min.css" />
     <Content Include="bootstrap\js\bootstrap.min.js" />
     <Content Include="bootstrap\js\jquery-3.3.1.slim.min.js" />
@@ -2132,6 +2133,7 @@
     <Content Include="fontAwsome\svgs\solid\yen-sign.svg" />
     <Content Include="fontAwsome\svgs\solid\yin-yang.svg" />
     <Content Include="fontAwsome\svgs\solid\z.svg" />
+    <Content Include="hairStyle.aspx" />
     <Content Include="homePage.aspx" />
     <Content Include="images\banner.jpg" />
     <Content Include="images\banner2.jpg" />
@@ -2151,6 +2153,7 @@
     <Content Include="images\logo.png" />
     <Content Include="images\mainLogo.png" />
     <Content Include="images\menu.png" />
+    <Content Include="images\perfectBack.jpg" />
     <Content Include="images\pic-1.jpg" />
     <Content Include="images\pic-2.jpg" />
     <Content Include="images\pic-3.jpg" />
@@ -2175,10 +2178,25 @@
     <Content Include="images\product7.jpg" />
     <Content Include="images\product8.jpg" />
     <Content Include="images\product9.jpg" />
+    <Content Include="images\resources.jpg" />
+    <Content Include="images\stuff1.jpg" />
+    <Content Include="images\style1.jpg" />
+    <Content Include="images\style2.jpg" />
+    <Content Include="images\style3.jpg" />
+    <Content Include="images\style4.jpg" />
+    <Content Include="images\style5.jpg" />
+    <Content Include="images\style6.jpg" />
+    <Content Include="images\style7.jpg" />
+    <Content Include="images\style8.jpg" />
+    <Content Include="images\style9.jpg" />
     <Content Include="images\user.jpg" />
     <Content Include="images\userReg.jpg" />
+    <Content Include="makeOrder.aspx" />
     <Content Include="ourProducts.aspx" />
+    <Content Include="stuffLogin.aspx" />
+    <Content Include="stuffManagement.aspx" />
     <Content Include="userLogin.aspx" />
+    <Content Include="userProfile.aspx" />
     <Content Include="userSignUp.aspx" />
     <Content Include="Web.config" />
     <Content Include="WebForm1.aspx" />
@@ -2198,12 +2216,33 @@
     <Compile Include="adminLogin.aspx.designer.cs">
       <DependentUpon>adminLogin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="adminManagement.aspx.cs">
+      <DependentUpon>adminManagement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="adminManagement.aspx.designer.cs">
+      <DependentUpon>adminManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="hairStyle.aspx.cs">
+      <DependentUpon>hairStyle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="hairStyle.aspx.designer.cs">
+      <DependentUpon>hairStyle.aspx</DependentUpon>
+    </Compile>
     <Compile Include="homePage.aspx.cs">
       <DependentUpon>homePage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="homePage.aspx.designer.cs">
       <DependentUpon>homePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="makeOrder.aspx.cs">
+      <DependentUpon>makeOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="makeOrder.aspx.designer.cs">
+      <DependentUpon>makeOrder.aspx</DependentUpon>
     </Compile>
     <Compile Include="ourProducts.aspx.cs">
       <DependentUpon>ourProducts.aspx</DependentUpon>
@@ -2220,12 +2259,33 @@
     <Compile Include="Site1.Master.designer.cs">
       <DependentUpon>Site1.Master</DependentUpon>
     </Compile>
+    <Compile Include="stuffLogin.aspx.cs">
+      <DependentUpon>stuffLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="stuffLogin.aspx.designer.cs">
+      <DependentUpon>stuffLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="stuffManagement.aspx.cs">
+      <DependentUpon>stuffManagement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="stuffManagement.aspx.designer.cs">
+      <DependentUpon>stuffManagement.aspx</DependentUpon>
+    </Compile>
     <Compile Include="userLogin.aspx.cs">
       <DependentUpon>userLogin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="userLogin.aspx.designer.cs">
       <DependentUpon>userLogin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="userProfile.aspx.cs">
+      <DependentUpon>userProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="userProfile.aspx.designer.cs">
+      <DependentUpon>userProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="userSignUp.aspx.cs">
       <DependentUpon>userSignUp.aspx</DependentUpon>

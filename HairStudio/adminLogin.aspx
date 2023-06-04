@@ -41,7 +41,7 @@
                             <div class="col">
 
                                <div class="form-group">
-                                   <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="Email" TextMode="Email"></asp:TextBox>
+                                   <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"></asp:TextBox>
                                </div>
 
                                 <div class="form-group">
@@ -49,7 +49,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <asp:Button class="btn btn-primary btn-block" ID="Button1" runat="server" Text="Login" />
+                                    <asp:Button class="btn btn-primary btn-block" ID="Button1" runat="server" Text="Login" OnClick="Button1_Click" />
                                 </div>
 
                             </div>

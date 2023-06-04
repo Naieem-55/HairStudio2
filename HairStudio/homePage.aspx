@@ -21,7 +21,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <img src="images/banner3.jpg" class="img-fluid">
+                    <img src="images/perfectBack.jpg" class="img-fluid">
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                 <div class="col">
                     <div class="row">
                         <div class="col">
-                            <img src="images/barber-man.jpg" width="400px" height="400px"/>
+                            <img src="images/barber-man.jpg" width="400px" height="400px" style="border-radius:12%"/>
                         </div>
                     </div>
                 </div>

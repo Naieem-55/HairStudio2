@@ -100,6 +100,23 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <div class="row">
+
+
+                                        <div class="col-md-5">
+                                            <label>User ID</label>
+                                            <asp:TextBox CssClass="form-control" ID="TextBox9" runat="server" placeholder="User ID"></asp:TextBox>
+                                        </div>
+
+
+                                        <div class="col-md-7">
+                                            <label>Password</label>
+                                            <asp:TextBox CssClass="form-control" ID="TextBox10" runat="server" placeholder="Password" TextMode="Password"></asp:TextBox>
+                                        </div>
+
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
                                     <label>Full Address</label>
@@ -109,7 +126,7 @@
 
 
                                 <div class="form-group">
-                                    <asp:Button class="btn btn-primary btn-block" ID="Button1" runat="server" Text="Sign Up" />
+                                    <asp:Button class="btn btn-primary btn-block" ID="Button1" runat="server" Text="Sign Up" OnClick="Button1_Click" />
                                 </div>
 
                             </div>

@@ -39,7 +39,7 @@
                             <p class="card-text">Hair brush is essentially used to design hair in unique style with gorgeus look.</p>
                         </div>
 
-                        <p style="font-size:20px;margin-left:10px">Price : 2500 BDT</p>
+                        <p style="font-size:20px;margin-left:10px">Price : 250 BDT</p>
                         <div class="form-group">
                             <asp:Button class="btn btn-primary btn-block" ID="Button2" runat="server" Text="PURCHASE" />
                         </div>
@@ -329,6 +329,6 @@
         </div>
     </section>
 
-
+    <p> <i class="fa-solid fa-house-user"></i> <a href="homePage.aspx"><i>Back to Home Page</i></a></p>
 
 </asp:Content>
