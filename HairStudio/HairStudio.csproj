@@ -2152,6 +2152,7 @@
     <Content Include="images\Login2.jpg" />
     <Content Include="images\logo.png" />
     <Content Include="images\mainLogo.png" />
+    <Content Include="images\mainLogo2.jpg" />
     <Content Include="images\menu.png" />
     <Content Include="images\perfectBack.jpg" />
     <Content Include="images\pic-1.jpg" />
@@ -2195,6 +2196,7 @@
     <Content Include="ourProducts.aspx" />
     <Content Include="stuffLogin.aspx" />
     <Content Include="stuffManagement.aspx" />
+    <Content Include="stuffSignUp.aspx" />
     <Content Include="userLogin.aspx" />
     <Content Include="userProfile.aspx" />
     <Content Include="userSignUp.aspx" />
@@ -2272,6 +2274,13 @@
     </Compile>
     <Compile Include="stuffManagement.aspx.designer.cs">
       <DependentUpon>stuffManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="stuffSignUp.aspx.cs">
+      <DependentUpon>stuffSignUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="stuffSignUp.aspx.designer.cs">
+      <DependentUpon>stuffSignUp.aspx</DependentUpon>
     </Compile>
     <Compile Include="userLogin.aspx.cs">
       <DependentUpon>userLogin.aspx</DependentUpon>

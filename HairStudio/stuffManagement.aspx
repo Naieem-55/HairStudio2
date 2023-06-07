@@ -1,5 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="stuffManagement.aspx.cs" Inherits="HairStudio.stuffManagement" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+      
+          $(".table").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
+      });
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -16,7 +24,7 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <img width="150px" src="images/stuff1.jpg" style="border-radius:50%"/>
+                                    <img width="150px" src="images/product6.jpg" style="border-radius:50%"/>
                                        
                                     </center>
                             </div>
@@ -44,7 +52,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"></asp:TextBox>
-                                        <asp:Button class="btn btn-primary" ID="Button1" runat="server" Text="Go" />
+                                        <asp:Button class="btn btn-primary" ID="Button1" runat="server" Text="Go" OnClick="Button1_Click" />
                                     </div>
                                 </div>
                             </div>
@@ -90,17 +98,20 @@
                             <div class="col-md-5">
                                 <label>Issue Date</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox6" runat="server" placeholder="Date" TextMode="DateTimeLocal"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox6" runat="server" placeholder="Date" TextMode="Date"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-6">
-                                <asp:Button ID="Button2" class="btn btn-lg btn-block btn-success" runat="server" Text="Add" />
+                            <div class="col-4">
+                                <asp:Button ID="Button2" class="btn btn-lg btn-block btn-success" runat="server" Text="Add" OnClick="Button2_Click" />
                             </div>
-                            <div class="col-6">
-                                <asp:Button ID="Button3" class="btn btn-lg btn-block btn-warning" runat="server" Text="Update" />
+                            <div class="col-4">
+                                <asp:Button ID="Button3" class="btn btn-lg btn-block btn-warning" runat="server" Text="Update" OnClick="Button3_Click" />
+                            </div>
+                            <div class="col-4">
+                                <asp:Button ID="Button4" class="btn btn-lg btn-block btn btn-danger" runat="server" Text="Delete" OnClick="Button4_Click" />
                             </div>
                         </div>
 
@@ -139,8 +150,12 @@
                         </div>
 
                         <div class="row">
+                            <asp:SqlDataSource runat="server" ID="SqlDataSource1" ConnectionString="<%$ ConnectionStrings:hairStudioDbConnectionString2 %>" ProviderName="<%$ ConnectionStrings:hairStudioDbConnectionString2.ProviderName %>" SelectCommand="SELECT [productId], [name], [price], [quantity] FROM [productTBL]"></asp:SqlDataSource>
                             <div class="col">
-                                <asp:GridView class="table table-striped table-bordered" ID="GridView1" runat="server"></asp:GridView>
+                                <asp:GridView class="table table-striped table-bordered" ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" DataSourceID="SqlDataSource1">
+                                </asp:GridView>
+
+                                
                             </div>
                         </div>
 

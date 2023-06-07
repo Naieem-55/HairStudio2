@@ -27,6 +27,8 @@
     <%-- bootstrap js --%>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
+    <%-- DataTables js --%>
+    <script src="dataTables/js/jquery.dataTables.min.js"></script>
 
     <asp:ContentPlaceHolder ID="head" runat="server">
 
@@ -39,7 +41,7 @@
             <nav class="navbar navbar-expand-lg navbar-light">
 
                 <a class="navbar-brand" href="#">
-                    <img src="images/mainLogo.png" width="30" height="30" style="background-color:lightcoral ; border-radius: 50%"/>
+                    <img src="images/mainLogo2.jpg" width="40" height="40" style="background-color:lightcoral ; border-radius: 50%"/>
                     Hair Studio
                 </a>
 

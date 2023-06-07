@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace HairStudio
 {
-    public partial class userSignUp : System.Web.UI.Page
+    public partial class stuffSignUp : System.Web.UI.Page
     {
 
         string strCon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
@@ -20,23 +20,23 @@ namespace HairStudio
 
         }
 
-        //signUp button click event
 
+        // Stuff sign up
         protected void Button1_Click(object sender, EventArgs e)
         {
-            
-            if (checkUserExist())
+            //clearFormForStuff();
+
+            if (checkStuffExist())
             {
-                Response.Write("<script> alert('User ID already exists . Please Use Another ID'); </script>");
+                updateStuff();
             }
             else
             {
-                addUser();
+                Response.Write("<script> alert('Please Enter valid Stuff Id'); </script>");
             }
-
         }
 
-        bool checkUserExist()
+        bool checkStuffExist()
         {
             try
             {
@@ -46,7 +46,7 @@ namespace HairStudio
                     con.Open();
                 }
 
-                SqlCommand cmd = new SqlCommand("select * from userTBL where userId='" + TextBox9.Text.Trim() + "'", con);
+                SqlCommand cmd = new SqlCommand("SELECT * from stuffTBL where stuffId = '" + TextBox1.Text.Trim() + "'", con);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -60,14 +60,30 @@ namespace HairStudio
                     return false;
                 }
             }
-            catch(Exception ex){
+            catch (Exception ex)
+            {
 
                 Response.Write("<script> alert('" + ex.Message + "'); </script>");
                 return false;
             }
         }
 
-        void addUser()
+        void clearFormForStuff()
+        {
+            try
+            {
+                TextBox1.Text = "";
+                TextBox2.Text = "";
+
+            }
+            catch (Exception ex)
+            {
+                Response.Redirect("<script> alert('" + ex.Message + "'); </script>");
+            }
+        }
+
+
+        void updateStuff()
         {
             try
             {
@@ -78,23 +94,13 @@ namespace HairStudio
                     con.Open();
                 }
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO userTBL(userId,name,birthDate,phone,email,state,city,zipCode,adress,accountStatus,password) values(@userId,@name,@birthDate,@phone,@email,@state,@city,@zipCode,@adress,@accountStatus,@password)", con);
-                cmd.Parameters.AddWithValue("@userId", TextBox9.Text.Trim());
-                cmd.Parameters.AddWithValue("@name", TextBox1.Text.Trim());
-                cmd.Parameters.AddWithValue("@birthDate", TextBox3.Text.Trim());
-                cmd.Parameters.AddWithValue("@phone", TextBox2.Text.Trim());
-                cmd.Parameters.AddWithValue("@email", TextBox4.Text.Trim());
-                cmd.Parameters.AddWithValue("@state", TextBox5.Text.Trim());
-                cmd.Parameters.AddWithValue("@city", TextBox6.Text.Trim());
-                cmd.Parameters.AddWithValue("@zipCode", TextBox7.Text.Trim());
-                cmd.Parameters.AddWithValue("@adress", TextBox8.Text.Trim());
-                cmd.Parameters.AddWithValue("@accountStatus", "pending");
-                cmd.Parameters.AddWithValue("@password", TextBox10.Text.Trim());
+                SqlCommand cmd = new SqlCommand("UPDATE stuffTBL SET password = @password WHERE stuffId = '" + TextBox1.Text.ToString() + "'", con);
+                cmd.Parameters.AddWithValue("@password", TextBox2.Text.Trim());
 
                 cmd.ExecuteNonQuery();
                 con.Close();
 
-                Response.Write("<script> alert('Sign Up Succesful. Go to Login User Page'); </script>");
+                Response.Write("<script> alert('Stuff Password Updated Succesfully.'); </script>");
 
             }
             catch (Exception ex)

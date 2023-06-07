@@ -1,8 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="stuffLogin.aspx.cs" Inherits="HairStudio.stuffLogin" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="stuffSignUp.aspx.cs" Inherits="HairStudio.stuffSignUp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
+    
     <div class="container-fluid"  style="background-color:aquamarine">
         <div class="row">
             <div class="col-md-6 mx-auto">
@@ -25,7 +26,7 @@
                         <div class="row">
                             <div class="col">
                                <center>
-                                   <h3>Stuff Login</h3>
+                                   <h3>Stuff Sign Up</h3>
                                </center>
                             </div>
                         </div>
@@ -48,11 +49,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <asp:Button class="btn btn-primary btn-block" ID="Button1" runat="server" Text="Login" OnClick="Button1_Click" />
-                                </div>
-
-                                <div class="form-group">
-                                    <asp:Button class="btn btn-primary btn-block" ID="Button2" runat="server" Text="Sign Up" OnClick="Button2_Click" />
+                                    <asp:Button class="btn btn-primary btn-block" ID="Button1" runat="server" Text="Sign Up" OnClick="Button1_Click" />
                                 </div>
 
                             </div>
@@ -63,7 +60,7 @@
 
                 <br />
 
-                <p> <i class="fa-solid fa-house-user"></i> <a href="homePage.aspx"><i>Back to Home Page</i></a></p>
+                <p> <i class="fa-solid fa-person-walking-luggage"></i> <a href="userLogin.aspx"><i>Go Login Page</i></a></p>
 
 
             </div>

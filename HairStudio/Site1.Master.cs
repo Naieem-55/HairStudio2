@@ -26,8 +26,8 @@ namespace HairStudio
                     LinkButton7.Text = "Hello " + Session["username"].ToString();
 
                     LinkButton10.Visible = false;  // user login    
-                    LinkButton6.Visible = true;  // admin login
-                    LinkButton9.Visible = true;  // stuff login
+                    LinkButton6.Visible = false;  // admin login
+                    LinkButton9.Visible = false;  // stuff login
                     LinkButton11.Visible = false;  //admin management
                     LinkButton12.Visible = false;  // stuff management 
                 }
@@ -49,6 +49,24 @@ namespace HairStudio
                     LinkButton11.Visible = true;  //admin management
                     LinkButton12.Visible = true;  // stuff management 
                 }
+                else if (Session["role"].Equals("stuff"))
+                {
+                    LinkButton1.Visible = false; //user login
+                    LinkButton2.Visible = false; //sign up
+                    LinkButton4.Visible = true; //our product
+                    LinkButton5.Visible = true; // about us
+                    LinkButton7.Visible = true; // hello user
+                    LinkButton3.Visible = true; // log out
+                    LinkButton8.Visible = true; //  hair styles
+
+                    LinkButton7.Text = "Hello " + Session["username"].ToString();
+
+                    LinkButton10.Visible = false;  // user login    
+                    LinkButton6.Visible = false;  // admin login
+                    LinkButton9.Visible = false;  // stuff login
+                    LinkButton11.Visible = false;  //admin management
+                    LinkButton12.Visible = true;  // stuff management 
+                }
             }
             catch (Exception ex)
             {
@@ -58,7 +76,7 @@ namespace HairStudio
 
         protected void LinkButton6_Click(object sender, EventArgs e)
         {
-            Response.Redirect("adminLogin.aspx");
+            Response.Redirect("adminLogin.aspx");   
 
         }
 
@@ -135,11 +153,17 @@ namespace HairStudio
                 LinkButton9.Visible = true;  // stuff login
                 LinkButton11.Visible = false;  //admin management
                 LinkButton12.Visible = false;  // stuff management
+
+               
             }
             catch (Exception ex)
             {
                 Response.Write("<script> alert('" + ex.Message + "'); </script>");
             }
+
+            Response.Redirect("homePage.aspx");
+
+
         }
     }
 }

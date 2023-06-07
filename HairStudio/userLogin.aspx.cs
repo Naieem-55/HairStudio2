@@ -19,12 +19,14 @@ namespace HairStudio
 
         }
 
+        // user login button 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            //Response.Write("<script> alert('Testing'); </script>");
+            
 
             try
             {
+                
                 SqlConnection con = new SqlConnection(strcon);
                 if (con.State == System.Data.ConnectionState.Closed)
                 {
@@ -55,5 +57,20 @@ namespace HairStudio
                 Response.Write("<script> alert('" + ex.Message + "'); </script>");
             }
         }
+
+
+        //user signUp button
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("stuffSignUp.aspx");
+        }
+
+        void clearFormForUser()
+        {
+            TextBox1.Text = "";
+            TextBox2.Text = "";
+        }
+
     }
 }
