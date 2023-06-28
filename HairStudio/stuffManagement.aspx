@@ -1,19 +1,33 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="stuffManagement.aspx.cs" Inherits="HairStudio.stuffManagement" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $(".table").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
+            });
+        </script>
 
     <script type="text/javascript">
-      $(document).ready(function () {
-      
-          $(".table").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
-      });
-    </script>
 
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imageview').attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <br /><br />
-
-    <div class="container">
+     <div class="container-fluid" style="background-color:antiquewhite">
+            <br /><br />
         <div class="row">
             <div class="col-md-5">
 
@@ -24,7 +38,8 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <img width="150px" src="images/product6.jpg" style="border-radius:50%"/>
+                                    <img width="150px" src="images/product6.jpg" style="border-radius:50%"  id="imageview"/>
+                                    <asp:FileUpload onchange="readURL(this);" class="form-control" ID="FileUpload2" runat="server" />
                                        
                                     </center>
                             </div>
@@ -51,8 +66,8 @@
                                 <label>Product ID</label>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"></asp:TextBox>
-                                        <asp:Button class="btn btn-primary" ID="Button1" runat="server" Text="Go" OnClick="Button1_Click" />
+                                        <asp:TextBox CssClass="form-control" ID="TextBox11" runat="server" placeholder="ID"></asp:TextBox>
+                                        <asp:Button class="btn btn-primary" ID="Button20" runat="server" Text="Go" OnClick="Button11_Click" />
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +75,7 @@
                             <div class="col-md-8">
                                 <label>Product Name</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Product Name"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox12" runat="server" placeholder="Product Name"></asp:TextBox>
 
                                 </div>
                             </div>
@@ -72,7 +87,7 @@
                                 <label>Product Price</label>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <asp:TextBox CssClass="form-control" ID="TextBox3" runat="server" placeholder="Price" TextMode="Number"></asp:TextBox>
+                                        <asp:TextBox CssClass="form-control" ID="TextBox13" runat="server" placeholder="Price" TextMode="Number"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +95,7 @@
                             <div class="col-md-7">
                                 <label>Product Quantity</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox4" runat="server" placeholder="Quantity" TextMode="Number"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox14" runat="server" placeholder="Quantity" TextMode="Number"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +105,7 @@
                                 <label>Origin</label>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <asp:TextBox CssClass="form-control" ID="TextBox5" runat="server" placeholder="Origin"></asp:TextBox>
+                                        <asp:TextBox CssClass="form-control" ID="TextBox15" runat="server" placeholder="Origin"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -98,20 +113,20 @@
                             <div class="col-md-5">
                                 <label>Issue Date</label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox6" runat="server" placeholder="Date" TextMode="Date"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox16" runat="server" placeholder="Date" TextMode="Date"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-4">
-                                <asp:Button ID="Button2" class="btn btn-lg btn-block btn-success" runat="server" Text="Add" OnClick="Button2_Click" />
+                                <asp:Button ID="Button12" class="btn btn-lg btn-block btn-success" runat="server" Text="Add" OnClick="Button12_Click" />
                             </div>
                             <div class="col-4">
-                                <asp:Button ID="Button3" class="btn btn-lg btn-block btn-warning" runat="server" Text="Update" OnClick="Button3_Click" />
+                                <asp:Button ID="Button13" class="btn btn-lg btn-block btn-warning" runat="server" Text="Update" OnClick="Button13_Click" />
                             </div>
                             <div class="col-4">
-                                <asp:Button ID="Button4" class="btn btn-lg btn-block btn btn-danger" runat="server" Text="Delete" OnClick="Button4_Click" />
+                                <asp:Button ID="Button14" class="btn btn-lg btn-block btn btn-danger" runat="server" Text="Delete" OnClick="Button14_Click" />
                             </div>
                         </div>
 
@@ -150,9 +165,16 @@
                         </div>
 
                         <div class="row">
-                            <asp:SqlDataSource runat="server" ID="SqlDataSource1" ConnectionString="<%$ ConnectionStrings:hairStudioDbConnectionString2 %>" ProviderName="<%$ ConnectionStrings:hairStudioDbConnectionString2.ProviderName %>" SelectCommand="SELECT [productId], [name], [price], [quantity] FROM [productTBL]"></asp:SqlDataSource>
+                            <asp:SqlDataSource runat="server" ID="SqlDataSource11" ConnectionString="<%$ ConnectionStrings:hairStudioDbConnectionString7 %>" SelectCommand="SELECT [productId], [name], [price], [quantity], [origin] FROM [productTBL]" ProviderName="<%$ ConnectionStrings:hairStudioDbConnectionString7.ProviderName %>"></asp:SqlDataSource>
                             <div class="col">
-                                <asp:GridView class="table table-striped table-bordered" ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" DataSourceID="SqlDataSource1">
+                                <asp:GridView class="table table-striped table-bordered" ID="GridView11" runat="server" DataSourceID="SqlDataSource11" AutoGenerateColumns="False" DataKeyNames="productId">
+                                    <Columns>
+                                        <asp:BoundField DataField="productId" HeaderText="productId" ReadOnly="True" SortExpression="productId" />
+                                        <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
+                                        <asp:BoundField DataField="price" HeaderText="price" SortExpression="price" />
+                                        <asp:BoundField DataField="quantity" HeaderText="quantity" SortExpression="quantity" />
+                                        <asp:BoundField DataField="origin" HeaderText="origin" SortExpression="origin" />
+                                    </Columns>
                                 </asp:GridView>
 
                                 
@@ -167,6 +189,6 @@
             </div>
 
         </div>
-    </div>
+         </div>
 
 </asp:Content>

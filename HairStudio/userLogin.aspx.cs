@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.EnterpriseServices.Internal;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -13,6 +15,8 @@ namespace HairStudio
     {
 
         string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        
+        public static string ID;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -39,8 +43,10 @@ namespace HairStudio
                 if (dr.HasRows) {
                     while (dr.Read())
                     {
+                        ID = Convert.ToString(TextBox1.Text);
                         Response.Write("<script> alert('Login  Successful.'); </script>");
                         Session["username"] = dr.GetValue(1).ToString();
+                        Session["userId"] = dr.GetValue(0).ToString();
                         Session["status"] = dr.GetValue(9).ToString();
                         Session["role"] = "user";
                     }
@@ -51,6 +57,7 @@ namespace HairStudio
                 {
                     Response.Write("<script> alert('Invalid User'); </script>");
                 }
+                
             }
             catch (Exception ex)
             {

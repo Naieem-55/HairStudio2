@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Xml.Serialization;
 
 namespace HairStudio
 {
@@ -331,6 +332,35 @@ namespace HairStudio
         }
 
 
+        // status update function
+        void updateStatusById(string status)
+        {
+            try
+            {
+
+                SqlConnection con = new SqlConnection(strCon);
+                if (con.State == System.Data.ConnectionState.Closed)
+                {
+                    con.Open();
+                }
+
+                SqlCommand cmd = new SqlCommand("UPDATE stuffTBL SET status = '"+status+"' WHERE stuffId = '" + TextBox1.Text.ToString() + "'", con);
+           
+                cmd.ExecuteNonQuery();
+                con.Close();
+                GridView1.DataBind();
+
+                Response.Write("<script> alert('Stuff status Updated Succesfully.'); </script>");
+
+            }
+            catch (Exception ex)
+            {
+
+                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+            }
+        }
+
+
 
 
         // admin update button
@@ -351,6 +381,26 @@ namespace HairStudio
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+
+        // Status Activate button
+        protected void LinkButton1_Click(object sender, EventArgs e)
+        {
+            updateStatusById("active");
+        }
+
+        // Status Pending button
+        protected void LinkButton2_Click(object sender, EventArgs e)
+        {
+            updateStatusById("pending");
+        }
+
+
+        // Status deactive button
+        protected void LinkButton3_Click(object sender, EventArgs e)
+        {
+            updateStatusById("deactive");
         }
     }
 }

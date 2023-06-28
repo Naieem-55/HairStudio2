@@ -16,7 +16,8 @@
 
     <br /><br />
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="background-color:antiquewhite">
+        <br /><br />
         <div class="row">
             <div class="col-md-5">
 
@@ -65,9 +66,9 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <asp:TextBox CssClass="form-control mr-1" ID="TextBox7" runat="server" placeholder="Account Status" ReadOnly="True"></asp:TextBox>
-                                        <asp:LinkButton class="btn btn-success mr-1" ID="LinkButton1" runat="server"><i class="fas fa-check-circle"></i></asp:LinkButton>
-                                        <asp:LinkButton class="btn btn-warning mr-1" ID="LinkButton2" runat="server"><i class="far fa-pause-circle"></i></asp:LinkButton>
-                                        <asp:LinkButton class="btn btn-danger mr-1" ID="LinkButton3" runat="server"><i class="fas fa-times-circle"></i></asp:LinkButton>
+                                        <asp:LinkButton class="btn btn-success mr-1" ID="LinkButton1" runat="server" OnClick="LinkButton1_Click"><i class="fas fa-check-circle"></i></asp:LinkButton>
+                                        <asp:LinkButton class="btn btn-warning mr-1" ID="LinkButton2" runat="server" OnClick="LinkButton2_Click"><i class="far fa-pause-circle"></i></asp:LinkButton>
+                                        <asp:LinkButton class="btn btn-danger mr-1" ID="LinkButton3" runat="server" OnClick="LinkButton3_Click"><i class="fas fa-times-circle"></i></asp:LinkButton>
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +214,7 @@
 
                         <div class="row">
 
-                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:hairStudioDbConnectionString %>" SelectCommand="SELECT [stuffId], [email], [name], [joinDate] FROM [stuffTBL]"></asp:SqlDataSource>
+                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:hairStudioDbConnectionString %>" SelectCommand="SELECT [stuffId], [email], [name], [status] FROM [stuffTBL]"></asp:SqlDataSource>
 
                             <div class="col">
                                 <asp:GridView class="table table-striped table-bordered" ID="GridView1" runat="server" DataSourceID="SqlDataSource1" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" AutoGenerateColumns="False" DataKeyNames="stuffId">
@@ -221,12 +222,12 @@
                                         <asp:BoundField DataField="stuffId" HeaderText="stuffId" ReadOnly="True" SortExpression="stuffId"></asp:BoundField>
                                         <asp:BoundField DataField="email" HeaderText="email" SortExpression="email"></asp:BoundField>
                                         <asp:BoundField DataField="name" HeaderText="name" SortExpression="name"></asp:BoundField>
-                                        <asp:BoundField DataField="joinDate" HeaderText="joinDate" SortExpression="joinDate"></asp:BoundField>
+                                        <asp:BoundField DataField="status" HeaderText="status" SortExpression="status"></asp:BoundField>
+
                                     </Columns>
                                 </asp:GridView>
                             </div>
                         </div>
-
 
                     </div>
                 </div>

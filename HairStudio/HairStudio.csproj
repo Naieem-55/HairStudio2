@@ -74,6 +74,7 @@
     <Content Include="bootstrap\js\bootstrap.min.js" />
     <Content Include="bootstrap\js\jquery-3.3.1.slim.min.js" />
     <Content Include="bootstrap\js\popper.min.js" />
+    <Content Include="cartPage.aspx" />
     <Content Include="CSS\customStyleSheet.css" />
     <Content Include="dataTables\css\jquery.dataTables.min.css" />
     <Content Include="dataTables\js\jquery.dataTables.min.js" />
@@ -2135,6 +2136,18 @@
     <Content Include="fontAwsome\svgs\solid\z.svg" />
     <Content Include="hairStyle.aspx" />
     <Content Include="homePage.aspx" />
+    <Content Include="imageStore\founder1.jpg" />
+    <Content Include="imageStore\founder2.jpg" />
+    <Content Include="imageStore\founder3.jpg" />
+    <Content Include="imageStore\health07.jpg" />
+    <Content Include="imageStore\product13.jpg" />
+    <Content Include="imageStore\product14.jpg" />
+    <Content Include="imageStore\product15.jpg" />
+    <Content Include="imageStore\product16.jpg" />
+    <Content Include="imageStore\product17.jpg" />
+    <Content Include="imageStore\product22.jpg" />
+    <Content Include="imageStore\product23.jpg" />
+    <Content Include="imageStore\stuffManagement.aspx" />
     <Content Include="images\banner.jpg" />
     <Content Include="images\banner2.jpg" />
     <Content Include="images\banner3.jpg" />
@@ -2145,6 +2158,7 @@
     <Content Include="images\founder2.jpg" />
     <Content Include="images\founder3.jpg" />
     <Content Include="images\generalUser.png" />
+    <Content Include="images\health07.jpg" />
     <Content Include="images\img-1.jpg" />
     <Content Include="images\img-2.jpg" />
     <Content Include="images\img-3.jpg" />
@@ -2172,6 +2186,8 @@
     <Content Include="images\product19.jpg" />
     <Content Include="images\product2.jpg" />
     <Content Include="images\product20.jpg" />
+    <Content Include="images\product22.jpg" />
+    <Content Include="images\product23.jpg" />
     <Content Include="images\product3.jpg" />
     <Content Include="images\product4.jpg" />
     <Content Include="images\product5.jpg" />
@@ -2193,9 +2209,11 @@
     <Content Include="images\user.jpg" />
     <Content Include="images\userReg.jpg" />
     <Content Include="makeOrder.aspx" />
+    <Content Include="OrderHairStyle.aspx" />
     <Content Include="ourProducts.aspx" />
     <Content Include="stuffLogin.aspx" />
     <Content Include="stuffManagement.aspx" />
+    <Content Include="stuffManagementPage.aspx" />
     <Content Include="stuffSignUp.aspx" />
     <Content Include="userLogin.aspx" />
     <Content Include="userProfile.aspx" />
@@ -2225,6 +2243,13 @@
     <Compile Include="adminManagement.aspx.designer.cs">
       <DependentUpon>adminManagement.aspx</DependentUpon>
     </Compile>
+    <Compile Include="cartPage.aspx.cs">
+      <DependentUpon>cartPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="cartPage.aspx.designer.cs">
+      <DependentUpon>cartPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="hairStyle.aspx.cs">
       <DependentUpon>hairStyle.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2239,12 +2264,26 @@
     <Compile Include="homePage.aspx.designer.cs">
       <DependentUpon>homePage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="imageStore\stuffManagement.aspx.cs">
+      <DependentUpon>stuffManagement.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="imageStore\stuffManagement.aspx.designer.cs">
+      <DependentUpon>stuffManagement.aspx</DependentUpon>
+    </Compile>
     <Compile Include="makeOrder.aspx.cs">
       <DependentUpon>makeOrder.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="makeOrder.aspx.designer.cs">
       <DependentUpon>makeOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OrderHairStyle.aspx.cs">
+      <DependentUpon>OrderHairStyle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OrderHairStyle.aspx.designer.cs">
+      <DependentUpon>OrderHairStyle.aspx</DependentUpon>
     </Compile>
     <Compile Include="ourProducts.aspx.cs">
       <DependentUpon>ourProducts.aspx</DependentUpon>
@@ -2274,6 +2313,13 @@
     </Compile>
     <Compile Include="stuffManagement.aspx.designer.cs">
       <DependentUpon>stuffManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="stuffManagementPage.aspx.cs">
+      <DependentUpon>stuffManagementPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="stuffManagementPage.aspx.designer.cs">
+      <DependentUpon>stuffManagementPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="stuffSignUp.aspx.cs">
       <DependentUpon>stuffSignUp.aspx</DependentUpon>

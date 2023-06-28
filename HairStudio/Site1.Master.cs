@@ -22,6 +22,7 @@ namespace HairStudio
                     LinkButton7.Visible = true; // hello user
                     LinkButton3.Visible = true; // log out
                     LinkButton8.Visible = true; //  hair styles
+                    LinkButton13.Visible = true; //  cart page
 
                     LinkButton7.Text = "Hello " + Session["username"].ToString();
 
@@ -40,6 +41,7 @@ namespace HairStudio
                     LinkButton7.Visible = true; // hello user
                     LinkButton3.Visible = true; // log out
                     LinkButton8.Visible = true; //  hair styles
+                    LinkButton13.Visible = false; //  cart page
 
                     LinkButton7.Text = "Hello Admin";
 
@@ -47,7 +49,7 @@ namespace HairStudio
                     LinkButton6.Visible = false;  // admin login
                     LinkButton9.Visible = false;  // stuff login
                     LinkButton11.Visible = true;  //admin management
-                    LinkButton12.Visible = true;  // stuff management 
+                    LinkButton12.Visible = true;  //stuff management 
                 }
                 else if (Session["role"].Equals("stuff"))
                 {
@@ -58,6 +60,7 @@ namespace HairStudio
                     LinkButton7.Visible = true; // hello user
                     LinkButton3.Visible = true; // log out
                     LinkButton8.Visible = true; //  hair styles
+                    LinkButton13.Visible = false; //  cart page
 
                     LinkButton7.Text = "Hello " + Session["username"].ToString();
 
@@ -107,7 +110,7 @@ namespace HairStudio
 
         protected void LinkButton7_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("cartPage.aspx");
         }
 
         protected void LinkButton5_Click(object sender, EventArgs e)
@@ -127,7 +130,12 @@ namespace HairStudio
 
         protected void LinkButton12_Click(object sender, EventArgs e)
         {
-            Response.Redirect("stuffManagement.aspx");
+            Response.Redirect("stuffManagementPage.aspx");
+        }
+
+        protected void LinkButton13_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("cartPage.aspx");
         }
 
         protected void LinkButton3_Click(object sender, EventArgs e)
