@@ -1,0 +1,44 @@
+﻿
+.col-md-6 {
+    position: relative;
+    overflow: hidden;
+}
+
+.col-md-6 img {
+    transition: transform 0.3s ease;
+}
+
+.col-md-6:hover img {
+    transform: scale(1.1);
+}
+
+.col-md-6::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color:none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.col-md-6:hover::after {
+    opacity: 1;
+}
+
+.col-md-6 h4 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color:antiquewhite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.col-md-6:hover h4 {
+    opacity: 1;
+}
+

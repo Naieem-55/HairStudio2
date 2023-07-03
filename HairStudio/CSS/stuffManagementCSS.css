@@ -1,0 +1,74 @@
+﻿/* CSS for the product card */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+#one{
+    background-color:lightcyan;
+}
+
+#two {
+    background-color:lightgoldenrodyellow;
+    overflow:hidden;
+}
+
+/* CSS for the product image */
+#imageview {
+    border-radius: 50%;
+}
+
+/* CSS for the product details section */
+.row h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.row hr {
+    border-top: 1px solid #ccc;
+    margin: 10px 0;
+}
+
+/* CSS for the product form inputs */
+.form-group label {
+    font-weight: bold;
+}
+
+/* CSS for the product buttons */
+.btn-lg {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+}
+
+/* CSS for the back to home page link */
+.fa-house-user {
+    margin-right: 5px;
+}
+
+/* CSS for the product table */
+.table {
+    width: 100%;
+}
+
+    .table th,
+    .table td {
+        padding: 8px;
+    }
+
+    .table th {
+      /*  background-color: #f5f5f5;*/
+        font-weight: bold;
+        text-align: left;
+    }
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color:antiquewhite;
+}
+
+/* CSS for hover effect on table rows */
+.table tbody tr:hover {
+    background-color:lightyellow;
+}

@@ -2,36 +2,50 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
    
     <%--javascript & css Code here--%>
+    <link href="CSS/headText.css" rel="stylesheet" />
+    <link href="CSS/featureImage.css" rel="stylesheet" />
+    <link href="CSS/serviceImage.css" rel="stylesheet" />
+    <link href="CSS/testimonialImage.css" rel="stylesheet" />
 
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <%--Home Page Section here--%>
 
-    <section style="background-color:antiquewhite">
-        <div class="container-fluid">
-            <div class="row">
+   <section style="background-color:antiquewhite">
+  <div class="container-fluid">
+    <div class="row">
+        <marquee id="myMarquee">
+            <p style="text-align: center; font-size: 30px; font-style: italic; color: black" id="marqueeText"></p></marquee>
+    </div>
 
-                <div class="col-md-12">
-                    <p style="text-align:center;font-size:45px;font-style:italic;color:aqua">Hair Studio</p>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <img src="images/perfectBack.jpg" class="img-fluid">
-                </div>
-            </div>
-
-            <div class="row">          
-                <div class="col-md-12">
-                    <p style="text-align:center;font-size:20px;font-style:italic;color:darkturquoise";>Style your hair is the style of your life.</p>
-                </div>
-            </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="image-container">
+          <img src="images/perfectBack.jpg" class="img-fluid" style="opacity:0.8">
+          <div class="image-overlay">
+              <p style="text-align:center;font-size:110px;font-style:italic;color:darkslategray;">Hair Studio</p>
+            <p style="text-align:center;font-size:60px;font-style:oblique;color:lightseagreen">Style your hair is the style of your life.</p>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+        <script>
+            var marqueeText = document.getElementById("marqueeText");
+            var strings = ["Welcome to Hair Studio Website !!", "Some brand new products just arrived today !", "Style yourself with Hair Studio ."];
+            var index = 0;
+
+            function changeText() {
+                marqueeText.innerHTML = strings[index];  
+                index = (index + 1) % strings.length;
+            }
+            changeText();
+        </script>
+
 
     <%--Features Section Here--%>
 
@@ -41,8 +55,8 @@
             <div class="row">
                 <div class="col-12">
                     <center>
-                    <p style="font-size:40px;color:aqua"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Features</p>
-                    <h2 style="color:cadetblue"> <b>Why Choose Us</b></h2>
+                    <h2 style="color:aqua"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> <i>Features</i></h2>
+                    <h5 style="color:cadetblue"> <b> <i>Why Choose Us</i></b></h5>
                     </center>
                 </div>
             </div>
@@ -102,14 +116,14 @@
                 <div class="col-md-6">
                     <center style="margin-top:30px;margin-bottom:30px">
                         <img  width="450px" src="images/pic-1.jpg" class="rounded"/>
-                        <i><h4>Hair Style | Unique Hair Style</h4></i>
+                        <h4><i>Hair Style | Unique Hair Style</i></h4>
                     </center>
                 </div>
 
                 <div class="col-md-6">
                     <center style="margin-top:30px;margin-bottom:30px">
                         <img width="450px" src="images/pic-2.jpg" class="rounded"/>
-                        <i><h4>Beared Trim | Handsome Beared Triming</h4></i>
+                        <h4><i>Beared Trim | Handsome Beared Triming</i></h4>
                     </center>
                 </div>
 
@@ -120,14 +134,14 @@
                 <div class="col-md-6">
                     <center style="margin-top:30px;margin-bottom:30px">
                         <img width="450px"  src="images/pic-3.jpg" class="rounded"/>
-                       <i><h4>Hair Cut | Awsome Hair Cutting</h4></i>
+                       <h4><i>Hair Cut | Awsome Hair Cutting</i></h4>
                     </center>
                 </div>
 
                 <div class="col-md-6">
                     <center style="margin-top:30px;margin-bottom:30px">
                         <img width="450px"  src="images/pic-4.jpg"  class="rounded"/>
-                        <i><h4>Dry Shampoo | Net & Clean Shampoo</h4></i>
+                        <h4><i>Dry Shampoo | Net & Clean Shampoo</i></h4>
                     </center>
                 </div>
 
@@ -145,7 +159,7 @@
             <div class="row">
 
                 <div class="col-md-12" style="font-size: 40px; color: aqua; font-style: italic; text-align: center">Testmonials</div>
-                <div class="col-md-12" style="font-size: 20px; color: cadetblue; font-style: italic; text-align: center">What Our Client Says</div>
+                <div class="col-md-12" style="font-size: 30px; color: cadetblue; font-style: italic; text-align: center">What Our Client Says</div>
 
             </div>
 
@@ -155,7 +169,7 @@
                         <img src="images/img-1.jpg" width="180px" height="185px" class="rounded"/> 
                         <p><b>ANDERSON PITTER</b><i class="fa-brands fa-twitter"></i></p>
                         <p style="color:darkblue">@anderson_pitter</p>
-                        <q><i>After visiting the branch today I left extremely happy with my new colour and rehreshment, Thank you.</i></q>
+                        <q><i>After visiting the branch today I left extremely happy with new colour and rehreshment.</i></q>
                     </center>
                 </div>
 
@@ -164,7 +178,7 @@
                         <img src="images/img-2.jpg" width="180px" height="185px" class="rounded" />
                         <p><b>KELVIN JUNIOR</b><i class="fa-brands fa-twitter"></i></p>
                         <p style="color:darkblue">@kelvin_junior</p>
-                        <q><i>Thrilled to bits with my haircut this afternoon from Sai at Marlow (Saturday) Really good cut.</i></q>
+                        <q><i>Thrilled to bits with my haircut this afternoon from Sai  really good cut.</i></q>
                     </center>
                 </div>
 
@@ -173,7 +187,7 @@
                         <img src="images/img-3.jpg" width="180px" height="185px" class="rounded" />
                         <p><b>MARK WOOD</b><i class="fa-brands fa-twitter"></i></p>
                         <p style="color:darkblue">@mark_wood</p>
-                        <q><i>Another excellent & professional Cut at Tring this morning, by your very experienced (new boy)… Harry</i></q>
+                        <q><i>Another excellent & professional Cut at Tring this morning very experienced</i></q>
                     </center>
                 </div>
 
@@ -196,9 +210,9 @@
                 <div class="col-md-3">
                     <center>
                         <p><b>PLATFORM</b></p>
-                        <p><asp:LinkButton runat="server">Why We're Different</asp:LinkButton></p>
-                        <p><asp:LinkButton runat="server">Pricing</asp:LinkButton></p>
-                        <p><asp:LinkButton runat="server">Payments</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server" OnClick="Unnamed1_Click">Why We're Different</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server" OnClick="Unnamed2_Click">Pricing</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server" OnClick="Unnamed3_Click">Payments</asp:LinkButton></p>
 
                     </center>
                 </div>
@@ -218,7 +232,7 @@
                     <center>
                          <p><b>RESOURCES</b></p>
                         <p><asp:LinkButton runat="server">Our Customers</asp:LinkButton></p>
-                        <p><asp:LinkButton runat="server">About Us</asp:LinkButton></p>
+                        <p><asp:LinkButton runat="server" OnClick="Unnamed9_Click">About Us</asp:LinkButton></p>
                         <p><asp:LinkButton runat="server">Contact Us</asp:LinkButton></p>
 
                     </center>

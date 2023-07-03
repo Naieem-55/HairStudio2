@@ -1,0 +1,36 @@
+﻿
+.card:hover {
+    transform: scale(1.1);
+    background-color:paleturquoise;
+    cursor:pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover effect for the card image */
+.card-img-top:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+/* Styles for the card title on hover */
+.card:hover .card-title {
+    color:cadetblue;
+}
+
+/* Styles for the card text on hover */
+.card:hover .card-text {
+    color:cornflowerblue;
+}
+
+/* Styles for the price text on hover */
+.card:hover p {
+    color:indigo;
+    font-weight: bold;
+}
+
+/* Styles for the order button on hover */
+.card:hover .btn {
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+

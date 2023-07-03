@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="aboutUs.aspx.cs" Inherits="HairStudio.aboutUs" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="CSS/aboutPageCSS.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -90,50 +91,66 @@ T                hat means embodying excellence through thoughtful software desi
             <div class="col-md-6 mx-auto">
 
                 <br />
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <p style="color:cadetblue;font-style:italic;font-size:30px">let Us know Your Experience</p>
+                    </div>
 
+                </div>
+                <br /><br />
 
                 <div class="card"  style="background-color:#e6f2ff">
                     <div class="card-body">
 
 
-                        <form>
-
-                            <center>
-                            <p style="text-align:center;font-size:30px;font-style:italic;color:#00004d">Send Your Opinion</p>
-                            </center>
-                            <!-- Name input -->
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="form4Example1">Name</label>
-                                <input type="text" id="form4Example1" class="form-control" placeholder="Full Name"/>
-                                
+                        <div>
+                        <div class="row">
+                            <div class="col-md-12 mx-auto">
+                                <label>Full Name</label>
+                                <div class="form-group">
+                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Full Name"></asp:TextBox>
+                                </div>
+                            </div>
                             </div>
 
-                            <!-- Email input -->
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="form4Example2">Email address</label>
-                                <input type="email" id="form4Example2" class="form-control"  placeholder="Email Adress"/>
-                                
+                            <div class="row">
+                            <div class="col-md-12 mx-auto">
+                                <label>Email Address</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="Email Address"></asp:TextBox>
+                                    </div>
+                                </div>
                             </div>
+                                </div>
 
-                            <!-- Message input -->
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="form4Example3">Message</label>
-                                <textarea class="form-control" id="form4Example3" rows="4"  placeholder="Your Message"></textarea>
-                                
+                            <div class="row">
+                            <div class="col-md-12 mx-auto">
+                                <label>Your message</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <asp:TextBox CssClass="form-control" ID="TextBox3" runat="server" placeholder="Your message"></asp:TextBox>
+                                    </div>
+                                </div>
                             </div>
+                                </div>
 
-                            <!-- Submit button -->
-                            <button type="submit" class="btn btn-primary btn-block mb-4">
-                                Send
-                            </button>
-                        </form>
 
-                        <br />
-
-                    </div>
+                            <div class="row">
+                            <div class="col-md-8 mx-auto">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <asp:Button ID="Button1" class="btn btn-lg btn-block btn-primary" runat="server" Text="Submit" OnClick="Button1_Click1" />
+                                    </div>
+                                </div>
+                            </div>
+                                </div>
+                        </div>
+                        </div>
+                       
                 </div>
 
-                
+                <br />
                 <p> <i class="fa-solid fa-house-user"></i> <a href="homePage.aspx"><i>Back to Home Page</i></a></p>
             </div>
 

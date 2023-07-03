@@ -23,6 +23,8 @@
            }
 
     </script>
+
+    <link href="CSS/stuffManagementCSS.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -32,7 +34,7 @@
         <div class="row">
             <div class="col-md-5">
 
-                <div class="card">
+                <div class="card" id="one">
                     <div class="card-body">
 
 
@@ -140,7 +142,7 @@
 
             <div class="col-md-7">
 
-                <div class="card">
+                <div class="card" id="two">
                     <div class="card-body">
 
 

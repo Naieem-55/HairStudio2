@@ -20,7 +20,7 @@ namespace HairStudio
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            //clearFormForUser();
         }
 
         // user login button 
@@ -70,13 +70,13 @@ namespace HairStudio
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            Response.Redirect("stuffSignUp.aspx");
+            Response.Redirect("userSignUp.aspx");
         }
 
         void clearFormForUser()
         {
-            TextBox1.Text = "";
-            TextBox2.Text = "";
+            TextBox1.Text = string.Empty;
+            TextBox2.Text = string.Empty;
         }
 
     }

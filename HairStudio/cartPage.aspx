@@ -30,6 +30,10 @@
         });
     </script>
 
+    <%--custom css file--%>
+
+    <link href="CSS/cartPageStyle.css" rel="stylesheet" />
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -40,7 +44,7 @@
         <div class="row">
             <div class="col-md-5">
 
-                <div class="card">
+                <div class="card" id="one">
                     <div class="card-body">
 
 
@@ -153,7 +157,7 @@
 
                 <br />
 
-                <div class="card">
+                <div class="card" id="two">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-7 mx-auto">
@@ -173,6 +177,13 @@
                      </div>
                 </div>
                 <br />
+                <div class="row">
+                    <div class="col-md-12 mx-auto">
+                    <asp:Button class="btn btn-lg btn-block btn-warning" ID="Button1" runat="server" Text="Go to Payment" OnClick="Button1_Click" />
+                        </div>
+                </div>
+
+                <br />
 
                 <p> <i class="fa-solid fa-house-user"></i> <a href="homePage.aspx"><i>Back to Home Page</i></a></p>
                 <br>
@@ -180,7 +191,7 @@
 
             <div class="col-md-7">
 
-                <div class="card">
+                <div class="card" id="three">
                     <div class="card-body">
 
                         <div class="row">

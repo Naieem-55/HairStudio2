@@ -1,0 +1,58 @@
+﻿/* Custom CSS for makeOrder.aspx */
+.container-fluid {
+    background-color: antiquewhite;
+    padding: 20px;
+}
+
+.card {
+    background-color:lightcyan;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+    .card:hover {
+        transform: translateY(-10px);
+        background-color: honeydew;
+        cursor: pointer;
+    }
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-img {
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.btn-block {
+    margin-top: 10px;
+    background-color:darkslategray;
+}
+
+.back-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .back-link a {
+        color: #777;
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+    }
+
+ .back-link a:hover {
+            color: darkcyan;
+ }

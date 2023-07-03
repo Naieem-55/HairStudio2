@@ -1,0 +1,99 @@
+﻿/* CSS for the section */
+section {
+    background-color: antiquewhite;
+}
+
+.container-fluid {
+    padding: 50px;
+}
+
+.row {
+    margin-bottom: 30px;
+}
+
+/* CSS for the welcome message */
+marquee p {
+    text-align: center;
+    font-size: 30px;
+    font-style: italic;
+    color:burlywood;
+}
+
+/* CSS for the image overlay */
+.image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+    .image-container img {
+        width: 100%;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+    }
+
+.image-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+    .image-overlay p:first-child {
+        font-size: 110px;
+        font-style: italic;
+        color: darkslategray;
+        margin-bottom: 20px;
+    }
+
+    .image-overlay p:last-child {
+        font-size: 60px;
+        font-style: oblique;
+        color: lightseagreen;
+    }
+
+/* CSS for hover effect */
+.image-container:hover img {
+    opacity: 1;
+}
+
+.image-container:hover .image-overlay {
+    opacity: 1.4;
+}
+
+    .image-container:hover .image-overlay p:first-child {
+        color: white;
+        animation: fade-in 0.8s ease forwards;
+    }
+
+    .image-container:hover .image-overlay p:last-child {
+        color: #66c7b5;
+        animation: slide-up 0.8s ease forwards;
+    }
+
+/* Animation keyframes for fade-in effect */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(50%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation keyframes for slide-up effect */
+@keyframes slide-up {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}

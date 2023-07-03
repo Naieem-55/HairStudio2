@@ -1,0 +1,78 @@
+﻿/* Styling for the card */
+.card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+     
+    
+ #one{
+    background-color:cadetblue;
+}
+
+    #two {
+        background-color: darkcyan;
+    }
+
+     #three {
+        background-color:lightgoldenrodyellow;
+    }
+
+.card-body {
+    padding: 20px;
+}
+
+/* Styling for the card heading */
+.card h4 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Styling for the card separator */
+.card hr {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+/* Styling for the form elements in the card */
+.card .form-group label {
+    font-weight: bold;
+}
+
+/* Styling for the profile image in the card */
+.card #imageview {
+    max-width: 150px;
+    border-radius: 50%;
+}
+
+/* Styling for the "Update" and "Remove" buttons in the card */
+.card .btn-warning,
+.card .btn-danger {
+    width: 100%;
+    border-radius: 5px;
+}
+
+/* Styling for the "Back to Home Page" link in the card */
+.card .fa-house-user {
+    margin-right: 5px;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 767px) {
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .card-body {
+        padding: 10px;
+    }
+
+    .card .btn-warning,
+    .card .btn-danger {
+        font-size: 12px;
+    }
+}

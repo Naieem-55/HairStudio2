@@ -1,0 +1,47 @@
+﻿
+.col-md-4 img:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.col-md-4 img:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.col-md-4 q {
+    margin-top: 20px;
+    font-size: 18px;
+    line-height: 1.4;
+    color: black;
+    font-style: italic;
+}
+
+
+.col-md-4 p b {
+    font-size: 18px;
+    color:cadetblue;
+}
+
+
+.col-md-4 p[style="color:darkblue"] {
+    margin-bottom: 10px;
+}
+
+
+.col-md-4 i.fa-brands.fa-twitter {
+    font-size: 20px;
+    color: darkblue;
+    margin-right: 5px;
+    margin-top:10px;
+}
+
+.col-md-4 q {
+    transition: color 0.3s ease-in-out;
+}
+
+.col-md-4:hover q {
+    color:mediumturquoise;
+    cursor:pointer;
+    transform: scale(1.3);
+}

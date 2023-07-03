@@ -13,5 +13,25 @@ namespace HairStudio
         {
 
         }
+
+        protected void Unnamed3_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("makePayment.aspx");
+        }
+
+        protected void Unnamed1_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("aboutUs.aspx");
+        }
+
+        protected void Unnamed2_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("hairStyle.aspx");
+        }
+
+        protected void Unnamed9_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("aboutUs.aspx");
+        }
     }
 }

@@ -4,15 +4,17 @@
 }
 
     .footerlinks:hover {
-        color: #ff3333;
+        color: black;
     }
 
 #footer1 {
-    background: #b3ffff;
+    background: black;
 }
 
 #footer2 {
-    background: #008080;
+    background: black;
 }
+
+
 
 

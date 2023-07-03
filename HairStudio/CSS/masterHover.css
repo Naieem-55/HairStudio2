@@ -1,0 +1,22 @@
+﻿
+.navbar-nav .nav-item .nav-link,
+#footer1 .footerlinks {
+    transition: color 0.3s ease-in-out;
+}
+
+
+    .navbar-nav .nav-item .nav-link:hover,
+    #footer1 .footerlinks:hover {
+        color:coral;
+        transform:scale(1.2);
+    }
+
+    .navbar-nav .nav-item .nav-link:hover,
+    #footer1 .footerlinks:hover {
+        text-decoration: underline;
+    }
+
+    .navbar-nav .nav-item .nav-link:active,
+    #footer1 .footerlinks:active {
+        color: #ff0000;
+    }

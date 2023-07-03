@@ -75,7 +75,20 @@
     <Content Include="bootstrap\js\jquery-3.3.1.slim.min.js" />
     <Content Include="bootstrap\js\popper.min.js" />
     <Content Include="cartPage.aspx" />
+    <Content Include="CSS\aboutPageCSS.css" />
+    <Content Include="CSS\adminManagementCSS.css" />
+    <Content Include="CSS\cartPageStyle.css" />
     <Content Include="CSS\customStyleSheet.css" />
+    <Content Include="CSS\featureImage.css" />
+    <Content Include="CSS\hairStyleCSS.css" />
+    <Content Include="CSS\headText.css" />
+    <Content Include="CSS\makeOrderCSS.css" />
+    <Content Include="CSS\makePaymentCSS.css" />
+    <Content Include="CSS\masterHover.css" />
+    <Content Include="CSS\ourProductsCSS.css" />
+    <Content Include="CSS\serviceImage.css" />
+    <Content Include="CSS\stuffManagementCSS.css" />
+    <Content Include="CSS\testimonialImage.css" />
     <Content Include="dataTables\css\jquery.dataTables.min.css" />
     <Content Include="dataTables\js\jquery.dataTables.min.js" />
     <Content Include="fontAwsome\css\all.css" />
@@ -2168,6 +2181,7 @@
     <Content Include="images\mainLogo.png" />
     <Content Include="images\mainLogo2.jpg" />
     <Content Include="images\menu.png" />
+    <Content Include="images\payment.jpg" />
     <Content Include="images\perfectBack.jpg" />
     <Content Include="images\pic-1.jpg" />
     <Content Include="images\pic-2.jpg" />
@@ -2209,6 +2223,7 @@
     <Content Include="images\user.jpg" />
     <Content Include="images\userReg.jpg" />
     <Content Include="makeOrder.aspx" />
+    <Content Include="makePayment.aspx" />
     <Content Include="OrderHairStyle.aspx" />
     <Content Include="ourProducts.aspx" />
     <Content Include="stuffLogin.aspx" />
@@ -2277,6 +2292,13 @@
     </Compile>
     <Compile Include="makeOrder.aspx.designer.cs">
       <DependentUpon>makeOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="makePayment.aspx.cs">
+      <DependentUpon>makePayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="makePayment.aspx.designer.cs">
+      <DependentUpon>makePayment.aspx</DependentUpon>
     </Compile>
     <Compile Include="OrderHairStyle.aspx.cs">
       <DependentUpon>OrderHairStyle.aspx</DependentUpon>
