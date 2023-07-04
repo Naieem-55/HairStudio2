@@ -89,7 +89,12 @@ namespace HairStudio
                 cmd.Parameters.AddWithValue("@zipCode", TextBox7.Text.Trim());
                 cmd.Parameters.AddWithValue("@adress", TextBox8.Text.Trim());
                 cmd.Parameters.AddWithValue("@accountStatus", "pending");
-                cmd.Parameters.AddWithValue("@password", TextBox10.Text.Trim());
+
+
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(TextBox10.Text.Trim());
+
+
+                cmd.Parameters.AddWithValue("@password", hashedPassword);
 
                 cmd.ExecuteNonQuery();
                 con.Close();

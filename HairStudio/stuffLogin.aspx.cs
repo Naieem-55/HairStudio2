@@ -30,19 +30,33 @@ namespace HairStudio
                     con.Open();
                 }
 
-                SqlCommand cmd = new SqlCommand("SELECT * from stuffTBL where stuffId = '" + TextBox1.Text.Trim() + "' AND password = '" + TextBox2.Text.Trim() + "'", con);
+                SqlCommand cmd = new SqlCommand("SELECT * from stuffTBL where stuffId = '" + TextBox1.Text.Trim() + "'", con);
 
                 SqlDataReader dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     while (dr.Read())
                     {
-                        Response.Write("<script> alert('Login  Successful.'); </script>");
-                        Session["username"] = dr.GetValue(4).ToString();
-                        Session["role"] = "stuff";
+                        string getpass = dr.GetValue(2).ToString();
+                        string enteredPass = TextBox2.Text.Trim();
+                        bool isPasswordValid = BCrypt.Net.BCrypt.Verify(enteredPass, getpass);
+
+
+                        if (isPasswordValid)
+                        {
+                            Response.Write("<script> alert('Login  Successful.'); </script>");
+                            Session["username"] = dr.GetValue(4).ToString();
+                            Session["role"] = "stuff";
+                            Response.Redirect("homePage.aspx");
+                        }
+                        else
+                        {
+                            Response.Write("<script> alert('Invalid password.'); </script>");
+                        }
+                            
                     }
 
-                    Response.Redirect("homePage.aspx");
+                    
                 }
                 else
                 {

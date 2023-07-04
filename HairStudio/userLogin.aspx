@@ -39,7 +39,7 @@
                             <div class="col">
 
                                <div class="form-group">
-                                   <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"></asp:TextBox>
+                                   <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder=" User ID"></asp:TextBox>
                                </div>
 
                                 <div class="form-group">

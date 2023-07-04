@@ -37,21 +37,35 @@ namespace HairStudio
                     con.Open();
                 }
 
-                SqlCommand cmd = new SqlCommand("SELECT * from userTBL where userId = '" + TextBox1.Text.Trim() + "' AND password = '"+ TextBox2.Text.Trim() +"'", con);
+                SqlCommand cmd = new SqlCommand("SELECT * from userTBL where userId = '" + TextBox1.Text.Trim() + "'", con);
 
                 SqlDataReader dr = cmd.ExecuteReader(); 
                 if (dr.HasRows) {
                     while (dr.Read())
                     {
-                        ID = Convert.ToString(TextBox1.Text);
-                        Response.Write("<script> alert('Login  Successful.'); </script>");
-                        Session["username"] = dr.GetValue(1).ToString();
-                        Session["userId"] = dr.GetValue(0).ToString();
-                        Session["status"] = dr.GetValue(9).ToString();
-                        Session["role"] = "user";
+
+                        string getpass = dr.GetValue(10).ToString();
+                        string enteredPass = TextBox2.Text.Trim();
+                        bool isPasswordValid = BCrypt.Net.BCrypt.Verify(enteredPass, getpass);
+
+                        if (isPasswordValid)
+                        {
+                            ID = Convert.ToString(TextBox1.Text);
+                            Response.Write("<script> alert('Login  Successful.'); </script>");
+                            Session["username"] = dr.GetValue(1).ToString();
+                            Session["userId"] = dr.GetValue(0).ToString();
+                            Session["status"] = dr.GetValue(9).ToString();
+                            Session["role"] = "user";
+                            Response.Redirect("homePage.aspx");
+                        }
+                        else
+                        {
+                            Response.Write("<script> alert('Invalid Password'); </script>");
+                        }
+
                     }
 
-                    Response.Redirect("homePage.aspx");
+                    
                 }
                 else
                 {

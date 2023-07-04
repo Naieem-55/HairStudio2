@@ -7,8 +7,8 @@
     <section style="background-color:antiquewhite">
         <div class="row">
             <div class="col-md-6 mx-auto">
-                <p style="font-size:50px;color:midnightblue;text-align:center">HAIR STUDIO</p>
-                <p style="font-size:20px;font-style:italic;text-align:center">Founded in 2017, Mangomint started with the belief that great software should be so intuitive and easy to use that it effectively disappears.</p>
+                <p style="font-size:40px;color:midnightblue;text-align:center">HAIR STUDIO</p>
+                <p style="font-size:20px;font-style:italic;text-align:center">Founded in 2017, Hair Studio started with the belief that great software should be so intuitive and easy to use.</p>
             </div>
         </div>
     </section>
@@ -65,20 +65,20 @@ T                hat means embodying excellence through thoughtful software desi
             <div class="row">
                 <div class="col-md-4">
                     <img src="images/founder1.jpg" width="300px" height="300px" style="border-radius:15%"/>
-                    <p style="font-size:20px">Daniel Lang</p>
-                    <p style="font-size:15px">Founder/CEO</p>
+                    <p style="font-size:30px;color:darkslategrey;font-style:oblique">Daniel Lang</p>
+                    <p style="font-size:20px;color:lightseagreen">Founder/CEO</p>
                 </div>
 
                 <div class="col-md-4">
                     <img src="images/founder2.jpg"  width="300px" height="300px" style="border-radius:15%"/>
-                    <p style="font-size: 20px">Daniel Lang</p>
-                    <p style=" font-size: 15px">Founder/CTO</p>
+                    <p style="font-size: 30px;color:darkslategrey;font-style:oblique">Md Hoque</p>
+                    <p style=" font-size: 20px;color:lightseagreen">Founder/CTO</p>
                 </div>
 
                 <div class="col-md-4">
                     <img src="images/founder3.jpg"  width="300px" height="300px" style="border-radius:15%"/>
-                    <p style="font-size: 20px">Daniel Lang</p>
-                    <p style="font-size: 15px">Founder/Lead Engineer</p>
+                    <p style="font-size: 30px;color:darkslategrey;font-style:oblique">Kelvin Peterson</p>
+                    <p style="font-size: 20px;color:lightseagreen">Founder/Lead Engineer</p>
                 </div>
             </div>
 
@@ -150,11 +150,14 @@ T                hat means embodying excellence through thoughtful software desi
                        
                 </div>
 
-                <br />
-                <p> <i class="fa-solid fa-house-user"></i> <a href="homePage.aspx"><i>Back to Home Page</i></a></p>
+               
             </div>
 
         </div>
+
+        <br />
+                <p> <i class="fa-solid fa-house-user"></i> <a href="homePage.aspx"><i>Back to Home Page</i></a></p>
+        <br />
     </section>
 
 

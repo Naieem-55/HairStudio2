@@ -26,14 +26,9 @@ namespace HairStudio
         {
             //clearFormForStuff();
 
-            if (checkStuffExist())
-            {
-                updateStuff();
-            }
-            else
-            {
-                Response.Write("<script> alert('Please Enter valid Stuff Id'); </script>");
-            }
+                addUser();
+            
+
         }
 
         bool checkStuffExist()
@@ -101,6 +96,41 @@ namespace HairStudio
                 con.Close();
 
                 Response.Write("<script> alert('Stuff Password Updated Succesfully.'); </script>");
+
+            }
+            catch (Exception ex)
+            {
+
+                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+            }
+        }
+
+
+        void addUser()
+        {
+            try
+            {
+
+                SqlConnection con = new SqlConnection(strCon);
+                if (con.State == System.Data.ConnectionState.Closed)
+                {
+                    con.Open();
+                }
+
+                SqlCommand cmd = new SqlCommand("INSERT INTO stuffTBL(stuffId,password) values(@stuffId,@password)", con);
+                cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
+
+
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(TextBox2.Text.Trim());
+
+
+                cmd.Parameters.AddWithValue("@password", hashedPassword);
+
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+                Response.Write("<script> alert('Sign Up Succesful. Go to Login Page'); </script>");
+                Response.Redirect("stuffLogin.aspx");
 
             }
             catch (Exception ex)
