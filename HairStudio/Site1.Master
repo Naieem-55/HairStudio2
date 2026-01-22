@@ -18,6 +18,7 @@
      <%-- Our Custom CSS --%>
     <link href="CSS/customStyleSheet.css" rel="stylesheet" />
     <link href="CSS/masterHover.css" rel="stylesheet" />
+    <link href="CSS/uiComponents.css" rel="stylesheet" />
 
     <%-- jquery --%>
     <script src="bootstrap/js/jquery-3.3.1.slim.min.js"></script>
@@ -134,6 +135,8 @@
         </footer>
         <!-- ./Footer -->
 
+        <%-- UI Components JS --%>
+        <script src="Scripts/uiComponents.js"></script>
     </form>
 </body>
 </html>

@@ -442,9 +442,33 @@ namespace HairStudio.App_Code
         }
 
         /// <summary>
-        /// Creates a safe JavaScript alert (prevents XSS)
+        /// Creates a safe JavaScript alert (prevents XSS) - Legacy support
         /// </summary>
         public static string CreateSafeAlert(string message)
+        {
+            // Use toast notification instead of alert
+            return CreateToast(message, "info");
+        }
+
+        #endregion
+
+        #region Toast Notifications
+
+        /// <summary>
+        /// Toast notification types
+        /// </summary>
+        public enum ToastType
+        {
+            Success,
+            Error,
+            Warning,
+            Info
+        }
+
+        /// <summary>
+        /// Creates a toast notification script
+        /// </summary>
+        public static string CreateToast(string message, string type = "info")
         {
             // Escape any quotes and special characters
             string safeMessage = message
@@ -454,7 +478,40 @@ namespace HairStudio.App_Code
                 .Replace("\r", "")
                 .Replace("\n", "");
 
-            return string.Format("<script>alert('{0}');</script>", safeMessage);
+            return string.Format("<script>if(typeof Toast !== 'undefined') {{ Toast.{0}('{1}'); }} else {{ alert('{1}'); }}</script>",
+                type.ToLower(), safeMessage);
+        }
+
+        /// <summary>
+        /// Creates a success toast notification
+        /// </summary>
+        public static string ShowSuccess(string message)
+        {
+            return CreateToast(message, "success");
+        }
+
+        /// <summary>
+        /// Creates an error toast notification
+        /// </summary>
+        public static string ShowError(string message)
+        {
+            return CreateToast(message, "error");
+        }
+
+        /// <summary>
+        /// Creates a warning toast notification
+        /// </summary>
+        public static string ShowWarning(string message)
+        {
+            return CreateToast(message, "warning");
+        }
+
+        /// <summary>
+        /// Creates an info toast notification
+        /// </summary>
+        public static string ShowInfo(string message)
+        {
+            return CreateToast(message, "info");
         }
 
         #endregion

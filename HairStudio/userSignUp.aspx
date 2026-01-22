@@ -1,6 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="userSignUp.aspx.cs" Inherits="HairStudio.userSignUp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize password strength meter
+            if (typeof PasswordStrength !== 'undefined') {
+                PasswordStrength.init('#<%= TextBox10.ClientID %>');
+            }
+        });
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container-fluid"  style="background-color:aquamarine">

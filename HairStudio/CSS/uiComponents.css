@@ -1,0 +1,567 @@
+/* ============================================
+   Hair Studio - UI Components CSS
+   Toast Notifications, Loading Indicators,
+   Form Validation, Password Meter, Responsive
+   ============================================ */
+
+/* ============================================
+   1. TOAST NOTIFICATIONS
+   ============================================ */
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 350px;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease-out;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast.hiding {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.toast-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.toast-error {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+}
+
+.toast-warning {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    color: #212529;
+}
+
+.toast-info {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+}
+
+.toast-icon {
+    font-size: 20px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.toast-content {
+    flex-grow: 1;
+}
+
+.toast-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.toast-message {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: inherit;
+    opacity: 0.7;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0 0 0 10px;
+    transition: opacity 0.2s;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ============================================
+   2. LOADING INDICATORS
+   ============================================ */
+
+/* Full page overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    flex-direction: column;
+}
+
+.loading-overlay.active {
+    display: flex;
+}
+
+/* Spinner styles */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.spinner-sm {
+    width: 20px;
+    height: 20px;
+    border-width: 2px;
+}
+
+.spinner-lg {
+    width: 70px;
+    height: 70px;
+    border-width: 5px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    margin-top: 15px;
+    font-size: 16px;
+    color: #666;
+    font-weight: 500;
+}
+
+/* Button loading state */
+.btn-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.btn-loading::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.btn-loading .btn-text {
+    visibility: hidden;
+}
+
+/* ============================================
+   3. FORM VALIDATION STYLES
+   ============================================ */
+
+/* Input states */
+.form-control.is-valid {
+    border-color: #28a745 !important;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545 !important;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc3545' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23dc3545' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.form-control:focus.is-valid {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.form-control:focus.is-invalid {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Validation feedback text */
+.valid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 12px;
+    color: #28a745;
+}
+
+.invalid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 12px;
+    color: #dc3545;
+}
+
+.form-control.is-valid ~ .valid-feedback,
+.form-control.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
+/* Input group validation icon positioning */
+.input-group .form-control.is-valid,
+.input-group .form-control.is-invalid {
+    background-position: right calc(0.375em + 0.1875rem + 40px) center;
+}
+
+/* ============================================
+   4. PASSWORD STRENGTH METER
+   ============================================ */
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: #495057;
+}
+
+.password-strength {
+    margin-top: 8px;
+}
+
+.password-strength-bar {
+    height: 5px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.password-strength-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 3px;
+    transition: width 0.3s, background-color 0.3s;
+}
+
+.password-strength-fill.strength-weak {
+    width: 25%;
+    background: #dc3545;
+}
+
+.password-strength-fill.strength-fair {
+    width: 50%;
+    background: #ffc107;
+}
+
+.password-strength-fill.strength-good {
+    width: 75%;
+    background: #17a2b8;
+}
+
+.password-strength-fill.strength-strong {
+    width: 100%;
+    background: #28a745;
+}
+
+.password-strength-text {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.password-strength-text.strength-weak { color: #dc3545; }
+.password-strength-text.strength-fair { color: #ffc107; }
+.password-strength-text.strength-good { color: #17a2b8; }
+.password-strength-text.strength-strong { color: #28a745; }
+
+.password-requirements {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.password-requirements ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.password-requirements li {
+    margin-bottom: 3px;
+    color: #6c757d;
+}
+
+.password-requirements li.met {
+    color: #28a745;
+}
+
+.password-requirements li.met::marker {
+    content: "\2713 ";
+}
+
+/* ============================================
+   5. RESPONSIVE FIXES
+   ============================================ */
+
+/* Mobile-first adjustments */
+@media (max-width: 576px) {
+    /* Toast positioning */
+    .toast-container {
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+
+    /* Card adjustments */
+    .card {
+        margin: 10px;
+        border-radius: 10px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    /* Form adjustments */
+    .form-group label {
+        font-size: 14px;
+    }
+
+    .form-control {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 10px 12px;
+    }
+
+    /* Button adjustments */
+    .btn {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    .btn-block {
+        margin-bottom: 10px;
+    }
+
+    /* Navigation */
+    .navbar-brand {
+        font-size: 16px;
+    }
+
+    .navbar-brand img {
+        width: 35px;
+        height: 35px;
+    }
+
+    /* Footer */
+    #footer1 .footerlinks {
+        display: block;
+        margin: 5px 0;
+    }
+
+    /* Tables */
+    .table-responsive {
+        font-size: 14px;
+    }
+
+    /* GridView */
+    .gridview-container {
+        overflow-x: auto;
+    }
+
+    /* Headings */
+    h3 {
+        font-size: 1.4rem;
+    }
+
+    h4 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Two-column to single column */
+    .col-md-6, .col-md-4, .col-md-5, .col-md-7 {
+        margin-bottom: 10px;
+    }
+
+    /* Card image sizing */
+    .card img {
+        max-width: 120px;
+    }
+
+    /* Better spacing */
+    .container-fluid {
+        padding: 15px;
+    }
+
+    /* Navigation improvements */
+    .navbar-collapse {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-nav .nav-link {
+        padding: 10px 15px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .navbar-nav .nav-link:last-child {
+        border-bottom: none;
+    }
+}
+
+@media (max-width: 992px) {
+    /* Medium screen adjustments */
+    .col-md-6.mx-auto {
+        max-width: 90%;
+    }
+}
+
+/* ============================================
+   6. ADDITIONAL UI ENHANCEMENTS
+   ============================================ */
+
+/* Smooth transitions for all interactive elements */
+.btn, .form-control, .nav-link, .card {
+    transition: all 0.2s ease;
+}
+
+/* Better focus states */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Card hover effect */
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Button hover improvements */
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-info:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
+}
+
+/* Link hover underline animation */
+a:not(.btn):not(.nav-link):not(.navbar-brand) {
+    position: relative;
+}
+
+a:not(.btn):not(.nav-link):not(.navbar-brand)::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: currentColor;
+    transition: width 0.3s;
+}
+
+a:not(.btn):not(.nav-link):not(.navbar-brand):hover::after {
+    width: 100%;
+}
+
+/* Input placeholder styling */
+.form-control::placeholder {
+    color: #adb5bd;
+    opacity: 1;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Selection color */
+::selection {
+    background: #007bff;
+    color: white;
+}
+
+/* Print styles */
+@media print {
+    .toast-container,
+    .loading-overlay,
+    .navbar,
+    footer {
+        display: none !important;
+    }
+}

@@ -153,13 +153,13 @@ namespace HairStudio
                     }
                 }
 
-                Response.Write(SecurityHelper.CreateSafeAlert("Sign Up Successful! Please go to the Login page."));
+                Response.Write(SecurityHelper.ShowSuccess("Sign Up Successful! Please go to the Login page."));
                 ClearForm();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Add User Error: {ex.Message}");
-                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred during registration. Please try again."));
+                Response.Write(SecurityHelper.ShowError("An error occurred during registration. Please try again."));
             }
         }
 
