@@ -1,80 +1,108 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using HairStudio.App_Code;
 
 namespace HairStudio
 {
     public partial class stuffLogin : System.Web.UI.Page
     {
-
-        string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        private readonly string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                ViewState["CSRFToken"] = Guid.NewGuid().ToString("N");
+            }
         }
 
-        // stuff login
+        // Staff login
         protected void Button1_Click(object sender, EventArgs e)
         {
+            // Validate CSRF token
+            if (ViewState["CSRFToken"] == null)
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid request. Please refresh and try again."));
+                return;
+            }
+
+            // Input validation
+            string stuffId = TextBox1.Text.Trim();
+            string password = TextBox2.Text.Trim();
+
+            if (!SecurityHelper.IsNotEmpty(stuffId) || !SecurityHelper.IsNotEmpty(password))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Please enter both Staff ID and Password."));
+                return;
+            }
+
+            if (!SecurityHelper.IsValidId(stuffId))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid Staff ID format."));
+                return;
+            }
+
             try
             {
-                SqlConnection con = new SqlConnection(strcon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strcon))
                 {
                     con.Open();
-                }
 
-                SqlCommand cmd = new SqlCommand("SELECT * from stuffTBL where stuffId = '" + TextBox1.Text.Trim() + "'", con);
-
-                SqlDataReader dr = cmd.ExecuteReader();
-                if (dr.HasRows)
-                {
-                    while (dr.Read())
+                    // Parameterized query to prevent SQL injection
+                    string query = "SELECT stuffId, password, name FROM stuffTBL WHERE stuffId = @stuffId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        string getpass = dr.GetValue(2).ToString();
-                        string enteredPass = TextBox2.Text.Trim();
-                        bool isPasswordValid = BCrypt.Net.BCrypt.Verify(enteredPass, getpass);
+                        cmd.Parameters.AddWithValue("@stuffId", stuffId);
 
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            if (dr.HasRows && dr.Read())
+                            {
+                                string storedPassword = dr["password"].ToString();
+                                string staffName = dr["name"] != DBNull.Value ? dr["name"].ToString() : stuffId;
 
-                        if (isPasswordValid)
-                        {
-                            Response.Write("<script> alert('Login  Successful.'); </script>");
-                            Session["username"] = dr.GetValue(4).ToString();
-                            Session["role"] = "stuff";
-                            Response.Redirect("homePage.aspx");
+                                // Verify password using BCrypt
+                                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, storedPassword);
+
+                                if (isPasswordValid)
+                                {
+                                    Session.Clear();
+                                    Session["username"] = SecurityHelper.HtmlEncode(staffName);
+                                    Session["stuffId"] = stuffId;
+                                    Session["role"] = "stuff";
+                                    Session["loginTime"] = DateTime.Now;
+
+                                    Response.Redirect("homePage.aspx", false);
+                                }
+                                else
+                                {
+                                    Response.Write(SecurityHelper.CreateSafeAlert("Invalid Staff ID or Password."));
+                                }
+                            }
+                            else
+                            {
+                                Response.Write(SecurityHelper.CreateSafeAlert("Invalid Staff ID or Password."));
+                            }
                         }
-                        else
-                        {
-                            Response.Write("<script> alert('Invalid password.'); </script>");
-                        }
-                            
                     }
-
-                    
-                }
-                else
-                {
-                    Response.Write("<script> alert('Invalid Stuff.'); </script>");
                 }
             }
             catch (Exception ex)
             {
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Staff Login Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred during login. Please try again."));
             }
+
+            // Regenerate CSRF token
+            ViewState["CSRFToken"] = Guid.NewGuid().ToString("N");
         }
 
-
-        // stuff sign up
+        // Staff sign up
         protected void Button2_Click(object sender, EventArgs e)
         {
             Response.Redirect("stuffSignUp.aspx");
         }
-
     }
 }

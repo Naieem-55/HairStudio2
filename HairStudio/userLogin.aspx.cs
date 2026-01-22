@@ -1,87 +1,109 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.EnterpriseServices.Internal;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using HairStudio.App_Code;
 
 namespace HairStudio
 {
     public partial class userLogin : System.Web.UI.Page
     {
-
-        string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
-        
-        public static string ID;
+        private readonly string strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //clearFormForUser();
+            // Generate CSRF token on page load
+            if (!IsPostBack)
+            {
+                ViewState["CSRFToken"] = Guid.NewGuid().ToString("N");
+            }
         }
 
-        // user login button 
+        // User login button
         protected void Button1_Click(object sender, EventArgs e)
         {
-            
+            // Validate CSRF token
+            if (ViewState["CSRFToken"] == null)
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid request. Please refresh and try again."));
+                return;
+            }
+
+            // Input validation
+            string userId = TextBox1.Text.Trim();
+            string password = TextBox2.Text.Trim();
+
+            if (!SecurityHelper.IsNotEmpty(userId) || !SecurityHelper.IsNotEmpty(password))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Please enter both User ID and Password."));
+                return;
+            }
+
+            if (!SecurityHelper.IsValidId(userId))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid User ID format."));
+                return;
+            }
 
             try
             {
-                
-                SqlConnection con = new SqlConnection(strcon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strcon))
                 {
                     con.Open();
-                }
 
-                SqlCommand cmd = new SqlCommand("SELECT * from userTBL where userId = '" + TextBox1.Text.Trim() + "'", con);
-
-                SqlDataReader dr = cmd.ExecuteReader(); 
-                if (dr.HasRows) {
-                    while (dr.Read())
+                    // Parameterized query to prevent SQL injection
+                    string query = "SELECT userId, name, password, accountStatus FROM userTBL WHERE userId = @userId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
+                        cmd.Parameters.AddWithValue("@userId", userId);
 
-                        string getpass = dr.GetValue(10).ToString();
-                        string enteredPass = TextBox2.Text.Trim();
-                        bool isPasswordValid = BCrypt.Net.BCrypt.Verify(enteredPass, getpass);
-
-                        if (isPasswordValid)
+                        using (SqlDataReader dr = cmd.ExecuteReader())
                         {
-                            ID = Convert.ToString(TextBox1.Text);
-                            Response.Write("<script> alert('Login  Successful.'); </script>");
-                            Session["username"] = dr.GetValue(1).ToString();
-                            Session["userId"] = dr.GetValue(0).ToString();
-                            Session["status"] = dr.GetValue(9).ToString();
-                            Session["role"] = "user";
-                            Response.Redirect("homePage.aspx");
-                        }
-                        else
-                        {
-                            Response.Write("<script> alert('Invalid Password'); </script>");
-                        }
+                            if (dr.HasRows && dr.Read())
+                            {
+                                string storedPassword = dr["password"].ToString();
+                                string userName = dr["name"].ToString();
+                                string accountStatus = dr["accountStatus"].ToString();
 
+                                // Verify password using BCrypt
+                                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, storedPassword);
+
+                                if (isPasswordValid)
+                                {
+                                    // Clear existing session and set new values
+                                    Session.Clear();
+                                    Session["username"] = SecurityHelper.HtmlEncode(userName);
+                                    Session["userId"] = userId;
+                                    Session["status"] = accountStatus;
+                                    Session["role"] = "user";
+                                    Session["loginTime"] = DateTime.Now;
+
+                                    Response.Redirect("homePage.aspx", false);
+                                }
+                                else
+                                {
+                                    Response.Write(SecurityHelper.CreateSafeAlert("Invalid User ID or Password."));
+                                }
+                            }
+                            else
+                            {
+                                Response.Write(SecurityHelper.CreateSafeAlert("Invalid User ID or Password."));
+                            }
+                        }
                     }
-
-                    
                 }
-                else
-                {
-                    Response.Write("<script> alert('Invalid User'); </script>");
-                }
-                
             }
             catch (Exception ex)
             {
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"User Login Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred during login. Please try again."));
             }
+
+            // Regenerate CSRF token
+            ViewState["CSRFToken"] = Guid.NewGuid().ToString("N");
         }
 
-
-        //user signUp button
-
+        // User signUp button
         protected void Button2_Click(object sender, EventArgs e)
         {
             Response.Redirect("userSignUp.aspx");
@@ -92,6 +114,5 @@ namespace HairStudio
             TextBox1.Text = string.Empty;
             TextBox2.Text = string.Empty;
         }
-
     }
 }

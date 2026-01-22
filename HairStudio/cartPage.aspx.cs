@@ -1,45 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
+using System.Web.UI;
+using HairStudio.App_Code;
 
 namespace HairStudio
 {
     public partial class cartPage : System.Web.UI.Page
     {
-        string strCon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        private readonly string strCon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            showUserProfile();
+            // Check if user is logged in
+            if (Session["userId"] == null)
+            {
+                Response.Redirect("userLogin.aspx");
+                return;
+            }
 
+            if (!IsPostBack)
+            {
+                ViewState["CSRFToken"] = Guid.NewGuid().ToString("N");
+                showUserProfile();
+            }
         }
 
-
-        // update User Details
+        // Update User Details
         protected void Button3_Click(object sender, EventArgs e)
         {
             updateUser();
             showUserProfile();
         }
 
-        // button delete
-
+        // Delete button
         protected void Button4_Click(object sender, EventArgs e)
         {
+            if (!SecurityHelper.IsValidId(TextBox5.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid Order ID format."));
+                return;
+            }
+
             if (checkOrder())
             {
                 removeOrder();
             }
             else
             {
-                Response.Write("<script> alert('Please enter valid Order ID.'); </script>");
+                Response.Write(SecurityHelper.CreateSafeAlert("Please enter valid Order ID."));
             }
         }
 
@@ -47,26 +58,26 @@ namespace HairStudio
         {
             try
             {
-
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
+
+                    // Parameterized query to prevent SQL injection
+                    string query = "DELETE FROM orderTBL WHERE orderId = @orderId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@orderId", TextBox5.Text.Trim());
+                        cmd.ExecuteNonQuery();
+                    }
                 }
 
-                SqlCommand cmd = new SqlCommand("DELETE from orderTBL WHERE orderId = '" + TextBox5.Text.ToString() + "'", con);
-
-                cmd.ExecuteNonQuery();
-                con.Close();
                 GridView1.DataBind();
-
-                Response.Write("<script> alert('Order Removed Successfully.'); </script>");
-
+                Response.Write(SecurityHelper.CreateSafeAlert("Order Removed Successfully."));
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Remove Order Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
 
@@ -74,109 +85,144 @@ namespace HairStudio
         {
             try
             {
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
-                }
 
-                SqlCommand cmd = new SqlCommand("select * from orderTBL where orderId = '" + TextBox5.Text.Trim() + "'", con);
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                if (dt.Rows.Count >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    // Parameterized query to prevent SQL injection
+                    string query = "SELECT COUNT(*) FROM orderTBL WHERE orderId = @orderId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@orderId", TextBox5.Text.Trim());
+                        int count = (int)cmd.ExecuteScalar();
+                        return count > 0;
+                    }
                 }
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Check Order Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
                 return false;
             }
         }
 
         void showUserProfile()
         {
+            string id = SecurityHelper.GetSessionValue(Session, "userId");
 
-            string id = Session["userId"].ToString();
+            if (string.IsNullOrEmpty(id))
+            {
+                Response.Redirect("userLogin.aspx");
+                return;
+            }
 
             try
             {
-
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
-                }
 
-                SqlCommand cmd = new SqlCommand("select * from userTBL WHERE userId = @id", con);
-                cmd.Parameters.AddWithValue("@id", id);
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
+                    // Parameterized query to prevent SQL injection
+                    string query = "SELECT userId, name, phone, email, adress, accountStatus FROM userTBL WHERE userId = @id";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@id", id);
 
-                if (dt.Rows.Count >= 1)
-                {
-                    TextBox1.Text = dt.Rows[0][0].ToString();
-                    TextBox7.Text = dt.Rows[0][9].ToString();
-                    TextBox2.Text = dt.Rows[0][1].ToString();
-                    TextBox3.Text = dt.Rows[0][3].ToString();
-                    TextBox4.Text = dt.Rows[0][4].ToString();
-                    TextBox11.Text = dt.Rows[0][8].ToString();
-                }
-                else
-                {
-                    Response.Write("<script> alert('Error occured!'); </script>");
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        if (dt.Rows.Count >= 1)
+                        {
+                            TextBox1.Text = dt.Rows[0]["userId"].ToString();
+                            TextBox7.Text = dt.Rows[0]["accountStatus"].ToString();
+                            TextBox2.Text = dt.Rows[0]["name"].ToString();
+                            TextBox3.Text = dt.Rows[0]["phone"].ToString();
+                            TextBox4.Text = dt.Rows[0]["email"].ToString();
+                            TextBox11.Text = dt.Rows[0]["adress"].ToString();
+                        }
+                        else
+                        {
+                            Response.Write(SecurityHelper.CreateSafeAlert("Error occurred!"));
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Response.Write("<script> alert('" + ex.Message + "') </script>");
+                System.Diagnostics.Debug.WriteLine($"Show Profile Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
 
         void updateUser()
         {
-
             try
             {
-                //string id = Session["userId"].ToString();
-
-                string filePath = "~/imageStore/founder2.jpg";
-                string fileName = Path.GetFileName(FileUpload1.PostedFile.FileName);
-                FileUpload1.SaveAs(Server.MapPath("imageStore" + fileName));
-                filePath = "~/imageStore/" + fileName;
-
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                // Validate inputs
+                if (!SecurityHelper.IsValidPhone(TextBox3.Text.Trim()))
                 {
-                    con.Open();
+                    Response.Write(SecurityHelper.CreateSafeAlert("Please enter a valid phone number."));
+                    return;
                 }
 
-                SqlCommand cmd2 = new SqlCommand("UPDATE userTBL SET phone=@phone,email=@email,adress=@adress,imgLink=@imgLink WHERE userId= '" + TextBox1.Text.Trim()+ "'", con);
+                if (!SecurityHelper.IsValidEmail(TextBox4.Text.Trim()))
+                {
+                    Response.Write(SecurityHelper.CreateSafeAlert("Please enter a valid email address."));
+                    return;
+                }
 
-                //cmd2.Parameters.AddWithValue("@id", id);
-                cmd2.Parameters.AddWithValue("@phone", TextBox3.Text.Trim());
-                cmd2.Parameters.AddWithValue("@email", TextBox4.Text.Trim());
-                cmd2.Parameters.AddWithValue("@adress", TextBox11.Text.Trim());
-                cmd2.Parameters.AddWithValue("@imgLink", filePath);
+                string filePath = "~/imageStore/founder2.jpg"; // Default image
 
-                cmd2.ExecuteNonQuery();
-                con.Close();
-                //GridView1.DataBind();
+                // Handle file upload with security validation
+                if (FileUpload1.HasFile)
+                {
+                    var fileResult = SecurityHelper.ValidateUploadedFile(FileUpload1.PostedFile);
 
-                Response.Write("<script> alert('User info Updated Succesfully.'); </script>");
+                    if (!fileResult.IsValid)
+                    {
+                        Response.Write(SecurityHelper.CreateSafeAlert(fileResult.ErrorMessage));
+                        return;
+                    }
+
+                    // Save file securely
+                    string uploadPath = Server.MapPath("~/imageStore/");
+                    var saveResult = SecurityHelper.SaveUploadedFile(FileUpload1.PostedFile, uploadPath);
+
+                    if (!saveResult.Success)
+                    {
+                        Response.Write(SecurityHelper.CreateSafeAlert(saveResult.ErrorMessage));
+                        return;
+                    }
+
+                    filePath = saveResult.RelativePath;
+                }
+
+                using (SqlConnection con = new SqlConnection(strCon))
+                {
+                    con.Open();
+
+                    // Parameterized query to prevent SQL injection
+                    string query = "UPDATE userTBL SET phone = @phone, email = @email, adress = @adress, imgLink = @imgLink WHERE userId = @userId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@userId", TextBox1.Text.Trim());
+                        cmd.Parameters.AddWithValue("@phone", TextBox3.Text.Trim());
+                        cmd.Parameters.AddWithValue("@email", TextBox4.Text.Trim());
+                        cmd.Parameters.AddWithValue("@adress", TextBox11.Text.Trim());
+                        cmd.Parameters.AddWithValue("@imgLink", filePath);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                Response.Write(SecurityHelper.CreateSafeAlert("User info Updated Successfully."));
             }
             catch (Exception ex)
             {
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Update User Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
 

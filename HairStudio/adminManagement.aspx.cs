@@ -1,64 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
+using System.Data.SqlClient;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Xml.Serialization;
+using HairStudio.App_Code;
 
 namespace HairStudio
 {
     public partial class adminManagement : System.Web.UI.Page
     {
+        private readonly string strCon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
 
-        string strCon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Check if user is admin
+            if (Session["role"] == null || Session["role"].ToString() != "admin")
+            {
+                Response.Redirect("adminLogin.aspx");
+                return;
+            }
 
+            if (!IsPostBack)
+            {
+                ViewState["CSRFToken"] = Guid.NewGuid().ToString("N");
+            }
         }
 
-
-        // add button
+        // Add button
         protected void Button2_Click(object sender, EventArgs e)
         {
-            //clearFormForStuff();
+            if (!ValidateStaffInput())
+                return;
 
             if (checkStuff())
             {
-                Response.Write("<script> alert('Id already exixts . Please try another one.'); </script>");
-
+                Response.Write(SecurityHelper.CreateSafeAlert("ID already exists. Please try another one."));
             }
             else
             {
                 addNewStuff();
-                
             }
         }
 
-
-        // update button
+        // Update button
         protected void Button3_Click(object sender, EventArgs e)
         {
-           // clearFormForStuff();
+            if (!ValidateStaffInput())
+                return;
 
             if (checkStuff())
             {
                 updateStuff();
-            
             }
             else
             {
-                Response.Write("<script> alert('Please enter valid Stuff ID.'); </script>");
+                Response.Write(SecurityHelper.CreateSafeAlert("Please enter valid Staff ID."));
             }
         }
 
-        //delete button
+        // Delete button
         protected void Button4_Click(object sender, EventArgs e)
         {
-            //clearFormForStuff();
+            if (!SecurityHelper.IsValidId(TextBox1.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid Staff ID format."));
+                return;
+            }
 
             if (checkStuff())
             {
@@ -66,49 +73,80 @@ namespace HairStudio
             }
             else
             {
-                Response.Write("<script> alert('Please enter valid Stuff ID.'); </script>");
+                Response.Write(SecurityHelper.CreateSafeAlert("Please enter valid Staff ID."));
             }
-
         }
 
-        // go button
+        // Go button
         protected void Button1_Click(object sender, EventArgs e)
         {
+            if (!SecurityHelper.IsValidId(TextBox1.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid Staff ID format."));
+                return;
+            }
             getStuffById();
+        }
+
+        private bool ValidateStaffInput()
+        {
+            if (!SecurityHelper.IsValidId(TextBox1.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid Staff ID format."));
+                return false;
+            }
+
+            if (!SecurityHelper.IsNotEmpty(TextBox2.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Please enter staff name."));
+                return false;
+            }
+
+            if (!SecurityHelper.IsNotEmpty(TextBox4.Text.Trim()) || !SecurityHelper.IsValidEmail(TextBox4.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Please enter a valid email address."));
+                return false;
+            }
+
+            return true;
         }
 
         void getStuffById()
         {
             try
             {
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
-                }
 
-                SqlCommand cmd = new SqlCommand("select * from stuffTBL where stuffId = '" + TextBox1.Text.Trim() + "'", con);
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
+                    // Parameterized query to prevent SQL injection
+                    string query = "SELECT * FROM stuffTBL WHERE stuffId = @stuffId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
 
-                if (dt.Rows.Count >= 1)
-                {
-                    TextBox2.Text = dt.Rows[0][4].ToString();
-                    TextBox3.Text = dt.Rows[0][3].ToString();
-                    TextBox4.Text = dt.Rows[0][1].ToString();
-                    TextBox11.Text = dt.Rows[0][5].ToString();
-                }
-                else
-                {
-                    Response.Write("<script> alert('Please enter valid Stuff ID.'); </script>");
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        if (dt.Rows.Count >= 1)
+                        {
+                            TextBox2.Text = dt.Rows[0]["name"] != DBNull.Value ? dt.Rows[0]["name"].ToString() : "";
+                            TextBox3.Text = dt.Rows[0]["joinDate"] != DBNull.Value ? dt.Rows[0]["joinDate"].ToString() : "";
+                            TextBox4.Text = dt.Rows[0]["email"] != DBNull.Value ? dt.Rows[0]["email"].ToString() : "";
+                            TextBox11.Text = dt.Rows[0]["fullAdress"] != DBNull.Value ? dt.Rows[0]["fullAdress"].ToString() : "";
+                        }
+                        else
+                        {
+                            Response.Write(SecurityHelper.CreateSafeAlert("Please enter valid Staff ID."));
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
-                //return false;
+                System.Diagnostics.Debug.WriteLine($"Get Staff Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
 
@@ -116,26 +154,26 @@ namespace HairStudio
         {
             try
             {
-
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
+
+                    // Parameterized query to prevent SQL injection
+                    string query = "DELETE FROM stuffTBL WHERE stuffId = @stuffId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
+                        cmd.ExecuteNonQuery();
+                    }
                 }
 
-                SqlCommand cmd = new SqlCommand("DELETE from stuffTBL WHERE stuffId = '" + TextBox1.Text.ToString() + "'", con);
-
-                cmd.ExecuteNonQuery();
-                con.Close();
                 GridView1.DataBind();
-
-                Response.Write("<script> alert('Stuff Deleted Succesfully.'); </script>");
-
+                Response.Write(SecurityHelper.CreateSafeAlert("Staff Deleted Successfully."));
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Delete Staff Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
 
@@ -143,31 +181,31 @@ namespace HairStudio
         {
             try
             {
-
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
+
+                    // Parameterized query to prevent SQL injection
+                    string query = "UPDATE stuffTBL SET email = @email, joinDate = @joinDate, name = @name, fullAdress = @fullAdress WHERE stuffId = @stuffId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
+                        cmd.Parameters.AddWithValue("@email", TextBox4.Text.Trim());
+                        cmd.Parameters.AddWithValue("@joinDate", TextBox3.Text.Trim());
+                        cmd.Parameters.AddWithValue("@name", TextBox2.Text.Trim());
+                        cmd.Parameters.AddWithValue("@fullAdress", TextBox11.Text.Trim());
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
 
-                SqlCommand cmd = new SqlCommand("UPDATE stuffTBL SET email = @email,joinDate = @joinDate,name = @name,fullAdress = @fullAdress WHERE stuffId = '" + TextBox1.Text.ToString()+"'", con);
-                cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
-                cmd.Parameters.AddWithValue("@email", TextBox4.Text.Trim());
-                cmd.Parameters.AddWithValue("@joinDate", TextBox3.Text.Trim());
-                cmd.Parameters.AddWithValue("@name", TextBox2.Text.Trim());
-                cmd.Parameters.AddWithValue("@fullAdress", TextBox11.Text.Trim());
-
-                cmd.ExecuteNonQuery();
-                con.Close();
                 GridView1.DataBind();
-
-                Response.Write("<script> alert('Stuff Updated Succesfully.'); </script>");
-
+                Response.Write(SecurityHelper.CreateSafeAlert("Staff Updated Successfully."));
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Update Staff Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
 
@@ -175,32 +213,34 @@ namespace HairStudio
         {
             try
             {
-
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
+
+                    // Generate a temporary hashed password (staff should change on first login)
+                    string tempPassword = BCrypt.Net.BCrypt.HashPassword("TempPass123!");
+
+                    string query = "INSERT INTO stuffTBL(stuffId, email, password, joinDate, name, fullAdress) VALUES(@stuffId, @email, @password, @joinDate, @name, @fullAdress)";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
+                        cmd.Parameters.AddWithValue("@email", TextBox4.Text.Trim());
+                        cmd.Parameters.AddWithValue("@password", tempPassword);
+                        cmd.Parameters.AddWithValue("@joinDate", TextBox3.Text.Trim());
+                        cmd.Parameters.AddWithValue("@name", TextBox2.Text.Trim());
+                        cmd.Parameters.AddWithValue("@fullAdress", TextBox11.Text.Trim());
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO stuffTBL(stuffId,email,password,joinDate,name,fullAdress) values(@stuffId,@email,@password,@joinDate,@name,@fullAdress)", con);
-                cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
-                cmd.Parameters.AddWithValue("@email", TextBox4.Text.Trim());
-                cmd.Parameters.AddWithValue("@password", "");
-                cmd.Parameters.AddWithValue("@joinDate", TextBox3.Text.Trim());
-                cmd.Parameters.AddWithValue("@name", TextBox2.Text.Trim());
-                cmd.Parameters.AddWithValue("@fullAdress", TextBox11.Text.Trim());
-
-                cmd.ExecuteNonQuery();
-                con.Close();
                 GridView1.DataBind();
-
-                Response.Write("<script> alert('Stuff added Succesfully.'); </script>");
-
+                Response.Write(SecurityHelper.CreateSafeAlert("Staff added Successfully. Default password is TempPass123!"));
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Add Staff Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
 
@@ -208,165 +248,168 @@ namespace HairStudio
         {
             try
             {
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
-                }
 
-                SqlCommand cmd = new SqlCommand("select * from stuffTBL where stuffId = '" + TextBox1.Text.Trim() + "'", con);
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                if (dt.Rows.Count >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    // Parameterized query to prevent SQL injection
+                    string query = "SELECT COUNT(*) FROM stuffTBL WHERE stuffId = @stuffId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
+                        int count = (int)cmd.ExecuteScalar();
+                        return count > 0;
+                    }
                 }
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Check Staff Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
                 return false;
             }
         }
-
 
         bool checkAdmin()
         {
             try
             {
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
-                }
 
-                SqlCommand cmd = new SqlCommand("select * from adminTBL where adminId = '" + TextBox12.Text.Trim() + "'", con);
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                if (dt.Rows.Count >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    // Parameterized query to prevent SQL injection
+                    string query = "SELECT COUNT(*) FROM adminTBL WHERE adminId = @adminId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@adminId", TextBox12.Text.Trim());
+                        int count = (int)cmd.ExecuteScalar();
+                        return count > 0;
+                    }
                 }
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Check Admin Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
                 return false;
             }
         }
-
 
         void updateAdmin()
         {
             try
             {
-
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                // Validate password
+                if (!SecurityHelper.IsValidPassword(TextBox18.Text.Trim()))
                 {
-                    con.Open();
+                    Response.Write(SecurityHelper.CreateSafeAlert("Password must be at least 8 characters with at least one letter and one number."));
+                    return;
                 }
 
-                SqlCommand cmd = new SqlCommand("UPDATE adminTBL SET password = @password WHERE adminId = '" + TextBox12.Text.ToString() + "'", con);
-                cmd.Parameters.AddWithValue("@password", TextBox18.Text.Trim());
+                using (SqlConnection con = new SqlConnection(strCon))
+                {
+                    con.Open();
 
-                cmd.ExecuteNonQuery();
-                con.Close();
+                    // Hash the new password with BCrypt
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(TextBox18.Text.Trim());
+
+                    // Parameterized query to prevent SQL injection
+                    string query = "UPDATE adminTBL SET password = @password WHERE adminId = @adminId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@password", hashedPassword);
+                        cmd.Parameters.AddWithValue("@adminId", TextBox12.Text.Trim());
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
                 GridView1.DataBind();
-
-                Response.Write("<script> alert('Admin Password Updated Succesfully.'); </script>");
-
+                Response.Write(SecurityHelper.CreateSafeAlert("Admin Password Updated Successfully."));
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Update Admin Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
-
 
         void clearFormForStuff()
         {
-            try
-            {
-                TextBox1.Text = "";
-                TextBox2.Text = "";
-                TextBox3.Text = "";
-                TextBox4.Text = "";
-                TextBox11.Text = "";
-
-            }
-            catch (Exception ex)
-            {
-                Response.Redirect("<script> alert('" + ex.Message + "'); </script>");
-            }
+            TextBox1.Text = "";
+            TextBox2.Text = "";
+            TextBox3.Text = "";
+            TextBox4.Text = "";
+            TextBox11.Text = "";
         }
-
 
         void clearFormForAdmin()
         {
-            try
-            {
-                TextBox12.Text = "";
-                TextBox18.Text = "";
-
-            }
-            catch (Exception ex)
-            {
-                Response.Redirect("<script> alert('" + ex.Message + "'); </script>");
-            }
+            TextBox12.Text = "";
+            TextBox18.Text = "";
         }
 
-
-        // status update function
+        // Status update function
         void updateStatusById(string status)
         {
             try
             {
-
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                if (!SecurityHelper.IsValidId(TextBox1.Text.Trim()))
                 {
-                    con.Open();
+                    Response.Write(SecurityHelper.CreateSafeAlert("Invalid Staff ID format."));
+                    return;
                 }
 
-                SqlCommand cmd = new SqlCommand("UPDATE stuffTBL SET status = '"+status+"' WHERE stuffId = '" + TextBox1.Text.ToString() + "'", con);
-           
-                cmd.ExecuteNonQuery();
-                con.Close();
+                // Validate status value
+                string[] validStatuses = { "active", "pending", "deactive" };
+                bool isValidStatus = false;
+                foreach (string validStatus in validStatuses)
+                {
+                    if (status.Equals(validStatus, StringComparison.OrdinalIgnoreCase))
+                    {
+                        isValidStatus = true;
+                        break;
+                    }
+                }
+
+                if (!isValidStatus)
+                {
+                    Response.Write(SecurityHelper.CreateSafeAlert("Invalid status value."));
+                    return;
+                }
+
+                using (SqlConnection con = new SqlConnection(strCon))
+                {
+                    con.Open();
+
+                    // Parameterized query to prevent SQL injection
+                    string query = "UPDATE stuffTBL SET status = @status WHERE stuffId = @stuffId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@status", status);
+                        cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
                 GridView1.DataBind();
-
-                Response.Write("<script> alert('Stuff status Updated Succesfully.'); </script>");
-
+                Response.Write(SecurityHelper.CreateSafeAlert("Staff status Updated Successfully."));
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Update Status Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
 
-
-
-
-        // admin update button
+        // Admin update button
         protected void Button5_Click(object sender, EventArgs e)
         {
-            //clearFormForAdmin();
+            if (!SecurityHelper.IsValidId(TextBox12.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid Admin ID format."));
+                return;
+            }
 
             if (checkAdmin())
             {
@@ -374,15 +417,13 @@ namespace HairStudio
             }
             else
             {
-                Response.Write("<script> alert('Please enter valid Admin ID.'); </script>");
+                Response.Write(SecurityHelper.CreateSafeAlert("Please enter valid Admin ID."));
             }
         }
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
-
 
         // Status Activate button
         protected void LinkButton1_Click(object sender, EventArgs e)
@@ -395,7 +436,6 @@ namespace HairStudio
         {
             updateStatusById("pending");
         }
-
 
         // Status deactive button
         protected void LinkButton3_Click(object sender, EventArgs e)

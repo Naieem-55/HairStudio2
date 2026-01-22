@@ -1,235 +1,334 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Data.SqlClient;
 using System.IO;
+using System.Web.UI;
+using HairStudio.App_Code;
 
 namespace HairStudio
 {
-
     public partial class stuffManagement : System.Web.UI.Page
     {
-        string strCon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        private readonly string strCon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
 
-        //add button
-        protected void Button12_Click(object sender, EventArgs e)
+        protected void Page_Load(object sender, EventArgs e)
         {
-            if (checkProductFun())
+            // Check if user is staff
+            if (Session["role"] == null || Session["role"].ToString() != "stuff")
             {
-                Response.Write("<script> alert('Product item aleady exists.'); </script>");
+                Response.Redirect("stuffLogin.aspx");
+                return;
+            }
+
+            if (!IsPostBack)
+            {
+                ViewState["CSRFToken"] = Guid.NewGuid().ToString("N");
+            }
+        }
+
+        // Add button click
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            if (!ValidateProductInput())
+                return;
+
+            if (checkProduct())
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Product item already exists."));
             }
             else
             {
-                addNewProductFun();
+                addNewProduct();
             }
         }
 
-        //update button
-        protected void Button13_Click(object sender, EventArgs e)
+        // Delete button click
+        protected void Button4_Click(object sender, EventArgs e)
         {
-            if (checkProductFun())
+            if (!SecurityHelper.IsValidId(TextBox1.Text.Trim()))
             {
-                updateProductFun();
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid Product ID format."));
+                return;
+            }
+
+            if (checkProduct())
+            {
+                deleteProduct();
             }
             else
             {
-                Response.Write("<script> alert('Product item aleady exists.'); </script>");
+                Response.Write(SecurityHelper.CreateSafeAlert("Product ID does not exist."));
             }
         }
 
-        //delete button
-        protected void Button14_Click(object sender, EventArgs e)
+        // Update button click
+        protected void Button3_Click(object sender, EventArgs e)
         {
-            if (checkProductFun())
+            if (!ValidateProductInput())
+                return;
+
+            if (checkProduct())
             {
-                deleteProductFun();
+                updateProduct();
             }
             else
             {
-                Response.Write("<script> alert('Product Id not exists.'); </script>");
+                Response.Write(SecurityHelper.CreateSafeAlert("Product ID does not exist."));
             }
         }
 
-        //go button
-        protected void Button11_Click(object sender, EventArgs e)
+        // Go button click
+        protected void Button1_Click(object sender, EventArgs e)
         {
-            getproductByIdFun();
+            if (!SecurityHelper.IsValidId(TextBox1.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid Product ID format."));
+                return;
+            }
+            getproductById();
         }
 
-        bool checkProductFun()
+        private bool ValidateProductInput()
+        {
+            if (!SecurityHelper.IsValidId(TextBox1.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid Product ID format."));
+                return false;
+            }
+
+            if (!SecurityHelper.IsNotEmpty(TextBox2.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Please enter product name."));
+                return false;
+            }
+
+            if (!SecurityHelper.IsValidDecimal(TextBox3.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Please enter a valid price."));
+                return false;
+            }
+
+            if (!SecurityHelper.IsValidNumber(TextBox4.Text.Trim()))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Please enter a valid quantity."));
+                return false;
+            }
+
+            return true;
+        }
+
+        bool checkProduct()
         {
             try
             {
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
-                }
 
-                SqlCommand cmd = new SqlCommand("select * from productTBL where productId = '" + TextBox11.Text.Trim() + "'", con);
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                if (dt.Rows.Count >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    // Parameterized query to prevent SQL injection
+                    string query = "SELECT COUNT(*) FROM productTBL WHERE productId = @productId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@productId", TextBox1.Text.Trim());
+                        int count = (int)cmd.ExecuteScalar();
+                        return count > 0;
+                    }
                 }
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Check Product Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
                 return false;
             }
         }
 
-
-        void addNewProductFun()
+        void addNewProduct()
         {
             try
             {
-                string filePath = "~/imageStore/product16.jpg";
-                string fileName = Path.GetFileName(FileUpload2.PostedFile.FileName);
-                FileUpload2.SaveAs(Server.MapPath("imageStore" + fileName));
-                filePath = "~/imageStore/" + fileName;
+                string filePath = "~/imageStore/product16.jpg"; // Default image
 
-                SqlConnection con = new SqlConnection(strCon);
-
-                if (con.State == System.Data.ConnectionState.Closed)
+                // Handle file upload with security validation
+                if (FileUpload1.HasFile)
                 {
-                    con.Open();
+                    var fileResult = SecurityHelper.ValidateUploadedFile(FileUpload1.PostedFile);
+
+                    if (!fileResult.IsValid)
+                    {
+                        Response.Write(SecurityHelper.CreateSafeAlert(fileResult.ErrorMessage));
+                        return;
+                    }
+
+                    // Save file securely
+                    string uploadPath = Server.MapPath("~/imageStore/");
+                    var saveResult = SecurityHelper.SaveUploadedFile(FileUpload1.PostedFile, uploadPath);
+
+                    if (!saveResult.Success)
+                    {
+                        Response.Write(SecurityHelper.CreateSafeAlert(saveResult.ErrorMessage));
+                        return;
+                    }
+
+                    filePath = saveResult.RelativePath;
                 }
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO productTBL(productId,name,price,quantity,origin,issueDate,imgLink) values(@productId,@name,@price,@quantity,@origin,@issueDate,@imgLink)", con);
-                cmd.Parameters.AddWithValue("@productId", TextBox11.Text.Trim());
-                cmd.Parameters.AddWithValue("@name", TextBox12.Text.Trim());
-                cmd.Parameters.AddWithValue("@price", TextBox13.Text.Trim());
-                cmd.Parameters.AddWithValue("@quantity", TextBox14.Text.Trim());
-                cmd.Parameters.AddWithValue("@origin", TextBox15.Text.Trim());
-                cmd.Parameters.AddWithValue("@issueDate", TextBox16.Text.Trim());
-                cmd.Parameters.AddWithValue("@imgLink", filePath);
+                using (SqlConnection con = new SqlConnection(strCon))
+                {
+                    con.Open();
 
-                cmd.ExecuteNonQuery();
-                con.Close();
-                GridView11.DataBind();
+                    string query = "INSERT INTO productTBL(productId, name, price, quantity, origin, issueDate, imgLink) VALUES(@productId, @name, @price, @quantity, @origin, @issueDate, @imgLink)";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@productId", TextBox1.Text.Trim());
+                        cmd.Parameters.AddWithValue("@name", TextBox2.Text.Trim());
+                        cmd.Parameters.AddWithValue("@price", decimal.Parse(TextBox3.Text.Trim()));
+                        cmd.Parameters.AddWithValue("@quantity", int.Parse(TextBox4.Text.Trim()));
+                        cmd.Parameters.AddWithValue("@origin", TextBox5.Text.Trim());
+                        cmd.Parameters.AddWithValue("@issueDate", TextBox6.Text.Trim());
+                        cmd.Parameters.AddWithValue("@imgLink", filePath);
 
-                Response.Write("<script> alert('Product added Succesfully.'); </script>");
+                        cmd.ExecuteNonQuery();
+                    }
+                }
 
+                GridView1.DataBind();
+                Response.Write(SecurityHelper.CreateSafeAlert("Product added Successfully."));
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Add Product Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
-
-
         }
 
-        void deleteProductFun()
+        void updateProduct()
         {
             try
             {
+                string filePath = "~/imageStore/product16.jpg"; // Default image
 
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                // Handle file upload with security validation
+                if (FileUpload1.HasFile)
                 {
-                    con.Open();
+                    var fileResult = SecurityHelper.ValidateUploadedFile(FileUpload1.PostedFile);
+
+                    if (!fileResult.IsValid)
+                    {
+                        Response.Write(SecurityHelper.CreateSafeAlert(fileResult.ErrorMessage));
+                        return;
+                    }
+
+                    // Save file securely
+                    string uploadPath = Server.MapPath("~/imageStore/");
+                    var saveResult = SecurityHelper.SaveUploadedFile(FileUpload1.PostedFile, uploadPath);
+
+                    if (!saveResult.Success)
+                    {
+                        Response.Write(SecurityHelper.CreateSafeAlert(saveResult.ErrorMessage));
+                        return;
+                    }
+
+                    filePath = saveResult.RelativePath;
                 }
 
-                SqlCommand cmd = new SqlCommand("DELETE from productTBL WHERE productId = '" + TextBox11.Text.ToString() + "'", con);
+                using (SqlConnection con = new SqlConnection(strCon))
+                {
+                    con.Open();
 
-                cmd.ExecuteNonQuery();
-                con.Close();
-                GridView11.DataBind();
+                    // Parameterized query to prevent SQL injection
+                    string query = "UPDATE productTBL SET price = @price, quantity = @quantity, imgLink = @imgLink WHERE productId = @productId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@price", decimal.Parse(TextBox3.Text.Trim()));
+                        cmd.Parameters.AddWithValue("@quantity", int.Parse(TextBox4.Text.Trim()));
+                        cmd.Parameters.AddWithValue("@imgLink", filePath);
+                        cmd.Parameters.AddWithValue("@productId", TextBox1.Text.Trim());
 
-                Response.Write("<script> alert('Product Deleted Succesfully.'); </script>");
+                        cmd.ExecuteNonQuery();
+                    }
+                }
 
+                GridView1.DataBind();
+                Response.Write(SecurityHelper.CreateSafeAlert("Product Updated Successfully."));
             }
             catch (Exception ex)
             {
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Update Product Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
 
-        void getproductByIdFun()
+        void deleteProduct()
         {
             try
             {
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
+
+                    // Parameterized query to prevent SQL injection
+                    string query = "DELETE FROM productTBL WHERE productId = @productId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@productId", TextBox1.Text.Trim());
+                        cmd.ExecuteNonQuery();
+                    }
                 }
 
-                SqlCommand cmd = new SqlCommand("select * from productTBL where productId = '" + TextBox11.Text.Trim() + "'", con);
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                if (dt.Rows.Count >= 1)
-                {
-                    TextBox12.Text = dt.Rows[0][1].ToString();
-                    TextBox13.Text = dt.Rows[0][2].ToString();
-                    TextBox14.Text = dt.Rows[0][3].ToString();
-                    TextBox15.Text = dt.Rows[0][4].ToString();
-                    TextBox16.Text = dt.Rows[0][5].ToString();
-                }
-                else
-                {
-                    Response.Write("<script> alert('Please enter valid Stuff ID.'); </script>");
-                }
+                GridView1.DataBind();
+                Response.Write(SecurityHelper.CreateSafeAlert("Product Deleted Successfully."));
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
-
+                System.Diagnostics.Debug.WriteLine($"Delete Product Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
 
+        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
 
-        void updateProductFun()
+        void getproductById()
         {
             try
             {
-                string filePath = "~/imageStore/product16.jpg";
-                string fileName = Path.GetFileName(FileUpload2.PostedFile.FileName);
-                FileUpload2.SaveAs(Server.MapPath("imageStore" + fileName));
-                filePath = "~/imageStore/" + fileName;
-
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
+
+                    // Parameterized query to prevent SQL injection
+                    string query = "SELECT * FROM productTBL WHERE productId = @productId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@productId", TextBox1.Text.Trim());
+
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+
+                        if (dt.Rows.Count >= 1)
+                        {
+                            TextBox2.Text = dt.Rows[0]["name"].ToString();
+                            TextBox3.Text = dt.Rows[0]["price"].ToString();
+                            TextBox4.Text = dt.Rows[0]["quantity"].ToString();
+                            TextBox5.Text = dt.Rows[0]["origin"].ToString();
+                            TextBox6.Text = dt.Rows[0]["issueDate"].ToString();
+                        }
+                        else
+                        {
+                            Response.Write(SecurityHelper.CreateSafeAlert("Please enter valid Product ID."));
+                        }
+                    }
                 }
-
-                SqlCommand cmd = new SqlCommand("UPDATE productTBL SET price = @price,quantity = @quantity, imgLink=@imgLink WHERE productId = '" + TextBox11.Text.ToString() + "'", con);
-                cmd.Parameters.AddWithValue("@price", TextBox13.Text.Trim());
-                cmd.Parameters.AddWithValue("@quantity", TextBox14.Text.Trim());
-                cmd.Parameters.AddWithValue("@imgLink", filePath);
-
-                cmd.ExecuteNonQuery();
-                con.Close();
-                GridView11.DataBind();
-
-                Response.Write("<script> alert('Product Updated Succesfully.'); </script>");
-
             }
             catch (Exception ex)
             {
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Get Product Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
-
-    }      
+    }
 }

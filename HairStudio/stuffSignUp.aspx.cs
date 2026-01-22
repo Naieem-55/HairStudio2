@@ -1,142 +1,154 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
+using System.Data.SqlClient;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using HairStudio.App_Code;
 
 namespace HairStudio
 {
     public partial class stuffSignUp : System.Web.UI.Page
     {
-
-        string strCon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        private readonly string strCon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                ViewState["CSRFToken"] = Guid.NewGuid().ToString("N");
+            }
         }
 
-
-        // Stuff sign up
+        // Staff sign up
         protected void Button1_Click(object sender, EventArgs e)
         {
-            //clearFormForStuff();
+            // Validate CSRF token
+            if (ViewState["CSRFToken"] == null)
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid request. Please refresh and try again."));
+                return;
+            }
 
-                addUser();
-            
+            // Validate inputs
+            string stuffId = TextBox1.Text.Trim();
+            string password = TextBox2.Text.Trim();
 
+            if (!SecurityHelper.IsValidId(stuffId))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Invalid Staff ID. Use only letters, numbers, and underscores."));
+                return;
+            }
+
+            if (!SecurityHelper.IsValidPassword(password))
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Password must be at least 8 characters with at least one letter and one number."));
+                return;
+            }
+
+            if (checkStuffExist())
+            {
+                Response.Write(SecurityHelper.CreateSafeAlert("Staff ID already exists. Please use another ID."));
+            }
+            else
+            {
+                addStaff();
+            }
+
+            // Regenerate CSRF token
+            ViewState["CSRFToken"] = Guid.NewGuid().ToString("N");
         }
 
         bool checkStuffExist()
         {
             try
             {
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
-                }
 
-                SqlCommand cmd = new SqlCommand("SELECT * from stuffTBL where stuffId = '" + TextBox1.Text.Trim() + "'", con);
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                if (dt.Rows.Count >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    // Parameterized query to prevent SQL injection
+                    string query = "SELECT COUNT(*) FROM stuffTBL WHERE stuffId = @stuffId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
+                        int count = (int)cmd.ExecuteScalar();
+                        return count > 0;
+                    }
                 }
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
-                return false;
+                System.Diagnostics.Debug.WriteLine($"Check Staff Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
+                return true;
             }
         }
 
         void clearFormForStuff()
         {
-            try
-            {
-                TextBox1.Text = "";
-                TextBox2.Text = "";
-
-            }
-            catch (Exception ex)
-            {
-                Response.Redirect("<script> alert('" + ex.Message + "'); </script>");
-            }
+            TextBox1.Text = "";
+            TextBox2.Text = "";
         }
-
 
         void updateStuff()
         {
             try
             {
-
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
+
+                    // Hash the new password
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(TextBox2.Text.Trim());
+
+                    // Parameterized query to prevent SQL injection
+                    string query = "UPDATE stuffTBL SET password = @password WHERE stuffId = @stuffId";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@password", hashedPassword);
+                        cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
+                        cmd.ExecuteNonQuery();
+                    }
                 }
 
-                SqlCommand cmd = new SqlCommand("UPDATE stuffTBL SET password = @password WHERE stuffId = '" + TextBox1.Text.ToString() + "'", con);
-                cmd.Parameters.AddWithValue("@password", TextBox2.Text.Trim());
-
-                cmd.ExecuteNonQuery();
-                con.Close();
-
-                Response.Write("<script> alert('Stuff Password Updated Succesfully.'); </script>");
-
+                Response.Write(SecurityHelper.CreateSafeAlert("Staff Password Updated Successfully."));
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Update Staff Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred. Please try again."));
             }
         }
 
-
-        void addUser()
+        void addStaff()
         {
             try
             {
-
-                SqlConnection con = new SqlConnection(strCon);
-                if (con.State == System.Data.ConnectionState.Closed)
+                using (SqlConnection con = new SqlConnection(strCon))
                 {
                     con.Open();
+
+                    string query = "INSERT INTO stuffTBL(stuffId, password) VALUES(@stuffId, @password)";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
+
+                        // Hash password with BCrypt
+                        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(TextBox2.Text.Trim());
+                        cmd.Parameters.AddWithValue("@password", hashedPassword);
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO stuffTBL(stuffId,password) values(@stuffId,@password)", con);
-                cmd.Parameters.AddWithValue("@stuffId", TextBox1.Text.Trim());
-
-
-                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(TextBox2.Text.Trim());
-
-
-                cmd.Parameters.AddWithValue("@password", hashedPassword);
-
-                cmd.ExecuteNonQuery();
-                con.Close();
-
-                Response.Write("<script> alert('Sign Up Succesful. Go to Login Page'); </script>");
-                Response.Redirect("stuffLogin.aspx");
-
+                Response.Write(SecurityHelper.CreateSafeAlert("Sign Up Successful! Please go to the Login page."));
+                clearFormForStuff();
+                Response.Redirect("stuffLogin.aspx", false);
             }
             catch (Exception ex)
             {
-
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                System.Diagnostics.Debug.WriteLine($"Add Staff Error: {ex.Message}");
+                Response.Write(SecurityHelper.CreateSafeAlert("An error occurred during registration. Please try again."));
             }
         }
     }
