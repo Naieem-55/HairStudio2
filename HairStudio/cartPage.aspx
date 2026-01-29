@@ -1,45 +1,22 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="cartPage.aspx.cs" Inherits="HairStudio.cartPage" %>
+<%@ Page Title="Hair Studio - My Cart" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="cartPage.aspx.cs" Inherits="HairStudio.cartPage" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
-   <script type="text/javascript">
-
-       function readURL(input) {
-           if (input.files && input.files[0]) {
-               var reader = new FileReader();
-
-               reader.onload = function (e) {
-                   $('#imageview').attr('src', e.target.result);
-               };
-
-               reader.readAsDataURL(input.files[0]);
-           }
-       }
-
-   </script>
-
+    <%-- DataTables --%>
+    <link href="dataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="dataTables/js/jquery.dataTables.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
-
-            //$(document).ready(function () {
-            //$('.table').DataTable();
-            // });
-
             $(".table").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
-            //$('.table1').DataTable();
         });
     </script>
-
-    <%--custom css file--%>
-
-    <link href="CSS/cartPageStyle.css" rel="stylesheet" />
 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <br /><br />
 
-    <div class="container-fluid"  style="background-color:antiquewhite">
+    <div class="container-fluid section-warm">
         <br /> <br />
         <div class="row">
             <div class="col-md-5">
@@ -50,10 +27,10 @@
 
                         <div class="row">
                             <div class="col">
-                                <center>
-                                    <img width="150px" src="images/generalUser.png" style="border-radius:50%" id="imageview"/>
-                                    <asp:FileUpload onchange="readURL(this);" class="form-control" ID="FileUpload1" runat="server" /> 
-                                </center>
+                                <div class="text-center">
+                                    <img width="150px" src="images/generalUser.png" class="profile-img" id="imageview" alt="User profile photo"/>
+                                    <asp:FileUpload onchange="readURL(this);" class="form-control" ID="FileUpload1" runat="server" />
+                                </div>
                             </div>
                         </div>
 
@@ -61,9 +38,9 @@
 
                         <div class="row">
                             <div class="col">
-                                <center>
+                                <div class="text-center">
                                     <h4>My Profile</h4>
-                                </center>
+                                </div>
                             </div>
                         </div>
 
@@ -75,7 +52,7 @@
 
                         <div class="row">
                             <div class="col-md-5  mx-auto">
-                                <label>ID</label>
+                                <asp:Label AssociatedControlID="TextBox1" runat="server">ID</asp:Label>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID" ReadOnly="true"></asp:TextBox>
@@ -84,7 +61,7 @@
                             </div>
 
                             <div class="col-md-7  mx-auto">
-                                <label>Account Status</label>
+                                <asp:Label AssociatedControlID="TextBox7" runat="server">Account Status</asp:Label>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <asp:TextBox CssClass="form-control mr-1" ID="TextBox7" runat="server" placeholder="Account Status" ReadOnly="true"></asp:TextBox>
@@ -96,14 +73,14 @@
 
                         <div class="row">
                             <div class="col-md-7 mx-auto">
-                                <label>Name</label>
+                                <asp:Label AssociatedControlID="TextBox2" runat="server">Name</asp:Label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Name"></asp:TextBox>
                                 </div>
                             </div>
 
                             <div class="col-md-5 mx-auto">
-                                <label>Phone</label>
+                                <asp:Label AssociatedControlID="TextBox3" runat="server">Phone</asp:Label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="TextBox3" runat="server" placeholder="Phone" TextMode="Number"></asp:TextBox>
 
@@ -114,7 +91,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <label>Email</label>
+                                <asp:Label AssociatedControlID="TextBox4" runat="server">Email</asp:Label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="TextBox4" runat="server" placeholder="Email"></asp:TextBox>
 
@@ -127,12 +104,12 @@
 
 
                                 <div class="form-group">
-                                    <label>Full Address</label>
-                                    <asp:TextBox CssClass="form-control" ID="TextBox11" runat="server" placeholder="Full Address"  class="input-group input-group-lg"></asp:TextBox>
+                                    <asp:Label AssociatedControlID="TextBox11" runat="server">Full Address</asp:Label>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox11" runat="server" placeholder="Full Address"></asp:TextBox>
                                 </div>
 
                                 <div class="row">
-                                    
+
                                     <div class="col-md-6 mx-auto">
                                         <asp:Button ID="Button3" class="btn btn-lg btn-block btn-warning" runat="server" Text="Update" OnClick="Button3_Click" />
                                     </div>
@@ -161,7 +138,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-7 mx-auto">
-                            <label>Order ID</label>
+                            <asp:Label AssociatedControlID="TextBox5" runat="server">Order ID</asp:Label>
                             <div class="form-group">
                                 <div class="input-group">
                                     <asp:TextBox CssClass="form-control" ID="TextBox5" runat="server" placeholder="ID"></asp:TextBox>
@@ -196,13 +173,13 @@
 
                         <div class="row">
                             <div class="col">
-                                <center>
-                                        <h4>Order List</h4>                                       
-                                </center>
+                                <div class="text-center">
+                                        <h4>Order List</h4>
+                                </div>
                             </div>
                         </div>
 
-                       
+
 
                         <div class="row">
                             <div class="col">
@@ -212,7 +189,7 @@
 
                         <div class="row">
 
-                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:hairStudioDbConnectionString5 %>" SelectCommand="SELECT [orderId], [quantity], [date], [status], [imgLink] FROM [orderTBL]"></asp:SqlDataSource>
+                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:hairStudioDbConnectionString %>" SelectCommand="SELECT [orderId], [quantity], [date], [status], [imgLink] FROM [orderTBL]"></asp:SqlDataSource>
                             <div class="col">
                             <asp:GridView ID="GridView1" class="table table-striped table-bordered" runat="server" AutoGenerateColumns="False" DataKeyNames="orderId" DataSourceID="SqlDataSource1">
                                 <Columns>
@@ -247,12 +224,12 @@
                                                     </div>
 
                                                     <div class="col-lg-5">
-                                                        <asp:Image class="img-fluid" ID="Image1" runat="server" ImageUrl='<%# Eval("imgLink") %>' /> 
+                                                        <asp:Image class="img-fluid" ID="Image1" runat="server" ImageUrl='<%# Eval("imgLink") %>' AlternateText="Product image" />
                                                     </div>
 
                                                 </div>
                                             </div>
-                                            
+
 
                                         </ItemTemplate>
 

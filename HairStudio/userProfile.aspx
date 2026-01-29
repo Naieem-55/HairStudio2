@@ -1,33 +1,33 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="userProfile.aspx.cs" Inherits="HairStudio.userProfile" %>
+<%@ Page Title="Hair Studio - My Profile" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="userProfile.aspx.cs" Inherits="HairStudio.userProfile" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container-fluid"  style="background-color:aquamarine">
+    <div class="container-fluid section-form">
         <div class="row">
             <div class="col-md-5">
                 <br />
 
-                <div class="card" style="background-color:#e6f2ff"> 
+                <div class="card section-card-blue">
                     <div class="card-body">
 
                         <div class="row">
                             <div class="col">
-                               <center>
-                                   <img width="150px" src="images/style7.jpg" style="border-radius:60%"/>
-                                    
-                               </center>
+                               <div class="text-center">
+                                   <img class="login-img profile-img" src="images/style7.jpg" alt="User profile photo"/>
+
+                               </div>
                             </div>
                         </div>
 
-                        
+
                         <div class="row">
                             <div class="col">
-                               <center>
+                               <div class="text-center">
                                    <h3>My Profile</h3>
                                    <span>Account status - </span>
                                    <asp:Label class="badge rounded-pill bg-success" ID="Label1" runat="server" Text="Active"></asp:Label>
-                               </center>
+                               </div>
                             </div>
                         </div>
 
@@ -43,9 +43,9 @@
                                <div class="form-group">
                                    <div class="row">
 
-                                       
+
                                        <div class="col-md-12">
-                                           <label>Full Name</label>
+                                           <asp:Label AssociatedControlID="TextBox1" runat="server">Full Name</asp:Label>
                                            <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="Full Name"></asp:TextBox>
                                        </div>
 
@@ -58,13 +58,13 @@
 
 
                                         <div class="col-md-5">
-                                            <label>Contact No</label>
+                                            <asp:Label AssociatedControlID="TextBox2" runat="server">Contact No</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Contact No" TextMode="Number"></asp:TextBox>
                                         </div>
 
 
                                         <div class="col-md-7">
-                                            <label>Email ID</label>
+                                            <asp:Label AssociatedControlID="TextBox4" runat="server">Email ID</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox4" runat="server" placeholder="Email ID" TextMode="Email"></asp:TextBox>
                                         </div>
 
@@ -77,19 +77,19 @@
 
 
                                         <div class="col-md-4">
-                                            <label>State</label>
+                                            <asp:Label AssociatedControlID="TextBox5" runat="server">State</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox5" runat="server" placeholder="State"></asp:TextBox>
                                         </div>
 
 
                                         <div class="col-md-4">
-                                            <label>City</label>
+                                            <asp:Label AssociatedControlID="TextBox6" runat="server">City</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox6" runat="server" placeholder="City"></asp:TextBox>
                                         </div>
 
-                                        
+
                                         <div class="col-md-4">
-                                            <label>Zip Code</label>
+                                            <asp:Label AssociatedControlID="TextBox3" runat="server">Zip Code</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox3" runat="server" placeholder="Zip Code"></asp:TextBox>
                                         </div>
 
@@ -98,18 +98,18 @@
 
 
                                 <div class="form-group">
-                                    <label>Full Address</label>
-                                    <asp:TextBox CssClass="form-control" ID="TextBox7" runat="server" placeholder="Full Address" class="input-group input-group-lg"></asp:TextBox>
+                                    <asp:Label AssociatedControlID="TextBox7" runat="server">Full Address</asp:Label>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox7" runat="server" placeholder="Full Address"></asp:TextBox>
                                 </div>
 
 
                                 <div class="row">
                                     <div class="col">
-                                        <center>
+                                        <div class="text-center">
                                             <h3>My Account</h3>
                                             <span>Account - </span>
                                             <asp:Label class="badge bg-info text-dark" ID="Label2" runat="server" Text="Active"></asp:Label>
-                                        </center>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -124,19 +124,19 @@
 
 
                                         <div class="col-md-3">
-                                            <label>Member ID</label>
+                                            <asp:Label AssociatedControlID="TextBox8" runat="server">Member ID</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox8" runat="server" placeholder="Member ID" ReadOnly="True"  TextMode="SingleLine"></asp:TextBox>
                                         </div>
 
 
                                         <div class="col-md-4">
-                                            <label>Old Password</label>
+                                            <asp:Label AssociatedControlID="TextBox17" runat="server">Old Password</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox17" runat="server" placeholder="Old Password" ReadOnly="True" TextMode="Password"></asp:TextBox>
                                         </div>
 
 
                                         <div class="col-md-5">
-                                            <label>New Password</label>
+                                            <asp:Label AssociatedControlID="TextBox18" runat="server">New Password</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox18" runat="server" placeholder="New Password" TextMode="Password"></asp:TextBox>
                                         </div>
 
@@ -168,24 +168,24 @@
             <div class="col-md-7">
                 <br />
 
-                <div class="card" style="background-color:#e6f2ff"> 
+                <div class="card section-card-blue">
                     <div class="card-body">
 
                         <div class="row">
                             <div class="col">
-                               <center>
-                                   <img width="150px" src="images/resources.jpg" style="border-radius:60%"/>
-                                    
-                               </center>
+                               <div class="text-center">
+                                   <img class="login-img profile-img" src="images/resources.jpg" alt="Order history icon"/>
+
+                               </div>
                             </div>
                         </div>
 
-                        
+
                         <div class="row">
                             <div class="col">
-                               <center>
+                               <div class="text-center">
                                    <h3>My History</h3>
-                               </center>
+                               </div>
                             </div>
                         </div>
 
@@ -211,5 +211,5 @@
             </div>
         </div>
     </div>
-    
+
 </asp:Content>

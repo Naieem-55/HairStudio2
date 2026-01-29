@@ -2163,7 +2163,6 @@
     <Content Include="imageStore\product17.jpg" />
     <Content Include="imageStore\product22.jpg" />
     <Content Include="imageStore\product23.jpg" />
-    <Content Include="imageStore\stuffManagement.aspx" />
     <Content Include="images\banner.jpg" />
     <Content Include="images\banner2.jpg" />
     <Content Include="images\banner3.jpg" />
@@ -2237,7 +2236,7 @@
     <Content Include="userProfile.aspx" />
     <Content Include="userSignUp.aspx" />
     <Content Include="Web.config" />
-    <Content Include="WebForm1.aspx" />
+    <Content Include="CSS\site.css" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="aboutUs.aspx.cs">
@@ -2281,13 +2280,6 @@
     </Compile>
     <Compile Include="homePage.aspx.designer.cs">
       <DependentUpon>homePage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="imageStore\stuffManagement.aspx.cs">
-      <DependentUpon>stuffManagement.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="imageStore\stuffManagement.aspx.designer.cs">
-      <DependentUpon>stuffManagement.aspx</DependentUpon>
     </Compile>
     <Compile Include="makeOrder.aspx.cs">
       <DependentUpon>makeOrder.aspx</DependentUpon>
@@ -2374,13 +2366,6 @@
     </Compile>
     <Compile Include="userSignUp.aspx.designer.cs">
       <DependentUpon>userSignUp.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

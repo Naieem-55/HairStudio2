@@ -1,25 +1,22 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="adminManagement.aspx.cs" Inherits="HairStudio.adminManagement" %>
+<%@ Page Title="Hair Studio - Admin Management" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="adminManagement.aspx.cs" Inherits="HairStudio.adminManagement" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-       <script type="text/javascript">
-      $(document).ready(function () {
-      
-          //$(document).ready(function () {
-              //$('.table').DataTable();
-         // });
-      
-          $(".table").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
-          //$('.table1').DataTable();
-      });
-       </script>
 
-    <link href="CSS/adminManagementCSS.css" rel="stylesheet" />
+    <%-- DataTables --%>
+    <link href="dataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="dataTables/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+          $(".table").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
+      });
+    </script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <br /><br />
 
-    <div class="container-fluid" style="background-color:antiquewhite">
+    <div class="container-fluid section-warm">
         <br /><br />
         <div class="row">
             <div class="col-md-5">
@@ -30,10 +27,10 @@
 
                         <div class="row">
                             <div class="col">
-                                <center>
-                                    <img width="150px" src="images/stuff1.jpg" style="border-radius:50%"/>
-                                       
-                                    </center>
+                                <div class="text-center">
+                                    <img width="150px" src="images/stuff1.jpg" class="profile-img" alt="Staff member photo"/>
+
+                                    </div>
                             </div>
                         </div>
 
@@ -41,9 +38,9 @@
 
                         <div class="row">
                             <div class="col">
-                                <center>
-                                    <h4>Stuff Details</h4>
-                                </center>
+                                <div class="text-center">
+                                    <h4>Staff Details</h4>
+                                </div>
                             </div>
                         </div>
 
@@ -55,7 +52,7 @@
 
                         <div class="row">
                             <div class="col-md-5  mx-auto">
-                                <label>Stuff ID</label>
+                                <asp:Label AssociatedControlID="TextBox1" runat="server">Staff ID</asp:Label>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"></asp:TextBox>
@@ -65,7 +62,7 @@
                             </div>
 
                             <div class="col-md-7  mx-auto">
-                                <label>Account Status</label>
+                                <asp:Label AssociatedControlID="TextBox7" runat="server">Account Status</asp:Label>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <asp:TextBox CssClass="form-control mr-1" ID="TextBox7" runat="server" placeholder="Account Status" ReadOnly="True"></asp:TextBox>
@@ -84,15 +81,15 @@
 
 
                             <div class="col-md-7 mx-auto">
-                                <label>Stuff Name</label>
+                                <asp:Label AssociatedControlID="TextBox2" runat="server">Staff Name</asp:Label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Stuff Name"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Staff Name"></asp:TextBox>
 
                                 </div>
                             </div>
 
                             <div class="col-md-5 mx-auto">
-                                <label>Join Date</label>
+                                <asp:Label AssociatedControlID="TextBox3" runat="server">Join Date</asp:Label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="TextBox3" runat="server" placeholder="Join Date" TextMode="Date"></asp:TextBox>
 
@@ -103,7 +100,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <label>Email</label>
+                                <asp:Label AssociatedControlID="TextBox4" runat="server">Email</asp:Label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="TextBox4" runat="server" placeholder="Email"></asp:TextBox>
 
@@ -116,8 +113,8 @@
 
 
                                 <div class="form-group">
-                                    <label>Full Address</label>
-                                    <asp:TextBox CssClass="form-control" ID="TextBox11" runat="server" placeholder="Full Address" class="input-group input-group-lg"></asp:TextBox>
+                                    <asp:Label AssociatedControlID="TextBox11" runat="server">Full Address</asp:Label>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox11" runat="server" placeholder="Full Address"></asp:TextBox>
                                 </div>
 
                                 <div class="row">
@@ -137,11 +134,11 @@
 
                                 <div class="row">
                                     <div class="col">
-                                        <center>
+                                        <div class="text-center">
                                             <h3>My Account</h3>
                                             <span>Account - </span>
                                             <asp:Label class="badge bg-info text-dark" ID="Label2" runat="server" Text="Active"></asp:Label>
-                                        </center>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -156,13 +153,13 @@
 
 
                                         <div class="col-md-5">
-                                            <label>ID</label>
+                                            <asp:Label AssociatedControlID="TextBox12" runat="server">ID</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox12" runat="server" placeholder="ID"  TextMode="SingleLine"></asp:TextBox>
                                         </div>
 
 
                                         <div class="col-md-7">
-                                            <label>New Password</label>
+                                            <asp:Label AssociatedControlID="TextBox18" runat="server">New Password</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox18" runat="server" placeholder="New Password" TextMode="Password"></asp:TextBox>
                                         </div>
 
@@ -201,13 +198,13 @@
 
                         <div class="row">
                             <div class="col">
-                                <center>
-                                        <h4>Stuff List</h4>
-                                </center>
+                                <div class="text-center">
+                                        <h4>Staff List</h4>
+                                </div>
                             </div>
                         </div>
 
-                       
+
 
                         <div class="row">
                             <div class="col">

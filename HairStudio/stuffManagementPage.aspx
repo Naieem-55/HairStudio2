@@ -1,35 +1,21 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="stuffManagementPage.aspx.cs" Inherits="HairStudio.stuffManagementPage" %>
+<%@ Page Title="Hair Studio - Staff Management" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="stuffManagementPage.aspx.cs" Inherits="HairStudio.stuffManagementPage" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+    <%-- DataTables --%>
+    <link href="dataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="dataTables/js/jquery.dataTables.min.js"></script>
 
     <script type="text/javascript">
       $(document).ready(function () {
-      
           $(".table").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
       });
     </script>
 
-    <script type="text/javascript">
-
-           function readURL(input) {
-               if (input.files && input.files[0]) {
-                   var reader = new FileReader();
-
-                   reader.onload = function (e) {
-                       $('#imageview').attr('src', e.target.result);
-                   };
-
-                   reader.readAsDataURL(input.files[0]);
-               }
-           }
-
-    </script>
-
-    <link href="CSS/stuffManagementCSS.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
 
-    <div class="container-fluid" style="background-color:antiquewhite">
+    <div class="container-fluid section-warm">
             <br /><br />
         <div class="row">
             <div class="col-md-5">
@@ -40,10 +26,10 @@
 
                         <div class="row">
                             <div class="col">
-                                <center>
-                                    <img width="150px" src="images/product6.jpg" style="border-radius:50%"  id="imageview"/>
+                                <div class="text-center">
+                                    <img width="150px" src="images/product6.jpg" class="profile-img" id="imageview" alt="Product image preview"/>
                                     <asp:FileUpload onchange="readURL(this);" class="form-control" ID="FileUpload1" runat="server" />
-                                </center>
+                                </div>
                             </div>
                         </div>
 
@@ -51,9 +37,9 @@
 
                         <div class="row">
                             <div class="col">
-                                <center>
+                                <div class="text-center">
                                     <h4>Product Details</h4>
-                                </center>
+                                </div>
                             </div>
                         </div>
 
@@ -65,7 +51,7 @@
 
                         <div class="row">
                             <div class="col-md-4">
-                                <label>Product ID</label>
+                                <asp:Label AssociatedControlID="TextBox1" runat="server">Product ID</asp:Label>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="ID"></asp:TextBox>
@@ -74,7 +60,7 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <label>Product Name</label>
+                                <asp:Label AssociatedControlID="TextBox2" runat="server">Product Name</asp:Label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Product Name"></asp:TextBox>
 
@@ -84,7 +70,7 @@
 
                         <div class="row">
                             <div class="col-md-5">
-                                <label>Product Price</label>
+                                <asp:Label AssociatedControlID="TextBox3" runat="server">Product Price</asp:Label>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <asp:TextBox CssClass="form-control" ID="TextBox3" runat="server" placeholder="Price" TextMode="Number"></asp:TextBox>
@@ -93,7 +79,7 @@
                             </div>
 
                             <div class="col-md-7">
-                                <label>Product Quantity</label>
+                                <asp:Label AssociatedControlID="TextBox4" runat="server">Product Quantity</asp:Label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="TextBox4" runat="server" placeholder="Quantity" TextMode="Number"></asp:TextBox>
                                 </div>
@@ -102,7 +88,7 @@
 
                         <div class="row">
                             <div class="col-md-7">
-                                <label>Origin</label>
+                                <asp:Label AssociatedControlID="TextBox5" runat="server">Origin</asp:Label>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <asp:TextBox CssClass="form-control" ID="TextBox5" runat="server" placeholder="Origin"></asp:TextBox>
@@ -111,7 +97,7 @@
                             </div>
 
                             <div class="col-md-5">
-                                <label>Issue Date</label>
+                                <asp:Label AssociatedControlID="TextBox6" runat="server">Issue Date</asp:Label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="TextBox6" runat="server" placeholder="Date" TextMode="Date"></asp:TextBox>
                                 </div>
@@ -149,9 +135,9 @@
 
                         <div class="row">
                             <div class="col">
-                                <center>
+                                <div class="text-center">
                                     <h4>Product List</h4>
-                                </center>
+                                </div>
                             </div>
                         </div>
 
@@ -164,7 +150,7 @@
                         </div>
 
                         <div class="row">
-                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:hairStudioDbConnectionString6 %>" SelectCommand="SELECT [productId], [name], [price], [quantity], [origin], [imgLink] FROM [productTBL]"></asp:SqlDataSource>
+                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:hairStudioDbConnectionString %>" SelectCommand="SELECT [productId], [name], [price], [quantity], [origin], [imgLink] FROM [productTBL]"></asp:SqlDataSource>
                             <div class="col">
                                 <asp:GridView class="table table-striped table-bordered" ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="productId" DataSourceID="SqlDataSource1">
                                     <Columns>

@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -71,11 +72,39 @@ namespace HairStudio
                 LinkButton11.Visible = false;  //admin management
                 LinkButton12.Visible = true;  // stuff management
             }
+
+            // Set active page indicator
+            string currentPage = Path.GetFileName(Request.Url.AbsolutePath).ToLower();
+            SetActiveNav(currentPage);
+        }
+
+        private void SetActiveNav(string currentPage)
+        {
+            LinkButton15.CssClass = "nav-link";
+            LinkButton5.CssClass = "nav-link";
+            LinkButton8.CssClass = "nav-link";
+            LinkButton4.CssClass = "nav-link";
+
+            switch (currentPage)
+            {
+                case "homepage.aspx":
+                    LinkButton15.CssClass = "nav-link active-page";
+                    break;
+                case "aboutus.aspx":
+                    LinkButton5.CssClass = "nav-link active-page";
+                    break;
+                case "hairstyle.aspx":
+                    LinkButton8.CssClass = "nav-link active-page";
+                    break;
+                case "ourproducts.aspx":
+                    LinkButton4.CssClass = "nav-link active-page";
+                    break;
+            }
         }
 
         protected void LinkButton6_Click(object sender, EventArgs e)
         {
-            Response.Redirect("adminLogin.aspx");   
+            Response.Redirect("adminLogin.aspx");
 
         }
 
@@ -132,6 +161,11 @@ namespace HairStudio
         protected void LinkButton13_Click(object sender, EventArgs e)
         {
             Response.Redirect("cartPage.aspx");
+        }
+
+        protected void LinkButton14_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("homePage.aspx");
         }
 
         protected void LinkButton3_Click(object sender, EventArgs e)

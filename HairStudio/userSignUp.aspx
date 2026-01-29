@@ -1,8 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="userSignUp.aspx.cs" Inherits="HairStudio.userSignUp" %>
+<%@ Page Title="Hair Studio - Sign Up" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="userSignUp.aspx.cs" Inherits="HairStudio.userSignUp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize password strength meter
             if (typeof PasswordStrength !== 'undefined') {
                 PasswordStrength.init('#<%= TextBox10.ClientID %>');
             }
@@ -10,29 +9,29 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="container-fluid"  style="background-color:aquamarine">
+    <div class="container-fluid section-form">
         <div class="row">
             <div class="col-md-6 mx-auto">
                 <br />
 
-                <div class="card" style="background-color:#e6f2ff"> 
+                <div class="card section-card-blue">
                     <div class="card-body">
 
                         <div class="row">
                             <div class="col">
-                               <center>
-                                   <img width="150px" src="images/userReg.jpg" style="border-radius:60%"/>
-                                    
-                               </center>
+                               <div class="text-center">
+                                   <img class="login-img profile-img" src="images/userReg.jpg" alt="User registration icon"/>
+
+                               </div>
                             </div>
                         </div>
 
-                        
+
                         <div class="row">
                             <div class="col">
-                               <center>
+                               <div class="text-center">
                                    <h3>Sign Up</h3>
-                               </center>
+                               </div>
                             </div>
                         </div>
 
@@ -48,15 +47,15 @@
                                <div class="form-group">
                                    <div class="row">
 
-                                       
+
                                        <div class="col-md-6">
-                                           <label>Full Name</label>
+                                           <asp:Label AssociatedControlID="TextBox1" runat="server">Full Name</asp:Label>
                                            <asp:TextBox CssClass="form-control" ID="TextBox1" runat="server" placeholder="Full Name"></asp:TextBox>
                                        </div>
 
-                                       
+
                                        <div class="col-md-6">
-                                           <label>Date Of Birth</label>
+                                           <asp:Label AssociatedControlID="TextBox3" runat="server">Date Of Birth</asp:Label>
                                            <asp:TextBox CssClass="form-control" ID="TextBox3" runat="server" placeholder="Date Of Birth" TextMode="Date"></asp:TextBox>
                                        </div>
 
@@ -69,13 +68,13 @@
 
 
                                         <div class="col-md-6">
-                                            <label>Contact No</label>
+                                            <asp:Label AssociatedControlID="TextBox2" runat="server">Contact No</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox2" runat="server" placeholder="Contact No" TextMode="Number"></asp:TextBox>
                                         </div>
 
 
                                         <div class="col-md-6">
-                                            <label>Email ID</label>
+                                            <asp:Label AssociatedControlID="TextBox4" runat="server">Email ID</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox4" runat="server" placeholder="Email ID" TextMode="Email"></asp:TextBox>
                                         </div>
 
@@ -88,19 +87,19 @@
 
 
                                         <div class="col-md-4">
-                                            <label>State</label>
+                                            <asp:Label AssociatedControlID="TextBox5" runat="server">State</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox5" runat="server" placeholder="State"></asp:TextBox>
                                         </div>
 
 
                                         <div class="col-md-4">
-                                            <label>City</label>
+                                            <asp:Label AssociatedControlID="TextBox6" runat="server">City</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox6" runat="server" placeholder="City"></asp:TextBox>
                                         </div>
 
 
                                         <div class="col-md-4">
-                                            <label>Zip Code</label>
+                                            <asp:Label AssociatedControlID="TextBox7" runat="server">Zip Code</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox7" runat="server" placeholder="Zip Code" TextMode="Number"></asp:TextBox>
                                         </div>
 
@@ -112,13 +111,13 @@
 
 
                                         <div class="col-md-5">
-                                            <label>User ID</label>
+                                            <asp:Label AssociatedControlID="TextBox9" runat="server">User ID</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox9" runat="server" placeholder="User ID"></asp:TextBox>
                                         </div>
 
 
                                         <div class="col-md-7">
-                                            <label>Password</label>
+                                            <asp:Label AssociatedControlID="TextBox10" runat="server">Password</asp:Label>
                                             <asp:TextBox CssClass="form-control" ID="TextBox10" runat="server" placeholder="Password" TextMode="Password"></asp:TextBox>
                                         </div>
 
@@ -126,8 +125,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Full Address</label>
-                                    <asp:TextBox CssClass="form-control" ID="TextBox8" runat="server" placeholder="Full Address" class="input-group input-group-lg"></asp:TextBox>
+                                    <asp:Label AssociatedControlID="TextBox8" runat="server">Full Address</asp:Label>
+                                    <asp:TextBox CssClass="form-control" ID="TextBox8" runat="server" placeholder="Full Address"></asp:TextBox>
                                 </div>
 
 

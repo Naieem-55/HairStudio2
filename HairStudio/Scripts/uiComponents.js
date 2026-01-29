@@ -389,7 +389,21 @@ const PasswordStrength = {
 };
 
 // ============================================
-// 5. UTILITY FUNCTIONS
+// 5. IMAGE PREVIEW (consolidated from ASPX pages)
+// ============================================
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#imageview').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// ============================================
+// 6. UTILITY FUNCTIONS
 // ============================================
 
 // Debounce function
@@ -423,7 +437,7 @@ function confirmAction(message, onConfirm, onCancel) {
 }
 
 // ============================================
-// 6. AUTO-INITIALIZATION
+// 7. AUTO-INITIALIZATION
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -470,7 +484,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================
-// 7. GLOBAL ERROR HANDLER FOR SERVER MESSAGES
+// 8. GLOBAL ERROR HANDLER FOR SERVER MESSAGES
 // ============================================
 
 // Override alert to use Toast (called from server-side)
