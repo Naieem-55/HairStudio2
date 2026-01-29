@@ -2317,6 +2317,7 @@
     <Compile Include="ourProducts.aspx.designer.cs">
       <DependentUpon>ourProducts.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App_Code\SecurityHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>

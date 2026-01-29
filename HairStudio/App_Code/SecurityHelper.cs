@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 
-namespace HairStudio.App_Code
+namespace HairStudio
 {
     /// <summary>
     /// Security helper class providing input validation, CSRF protection, and file upload sanitization
