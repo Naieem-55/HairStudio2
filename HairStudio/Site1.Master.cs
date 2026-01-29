@@ -11,69 +11,65 @@ namespace HairStudio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            try
+            string role = Session["role"] != null ? Session["role"].ToString() : "";
+            string username = Session["username"] != null ? Session["username"].ToString() : "";
+
+            if (role == "user")
             {
-                if (Session["role"].Equals("user"))
-                {
-                    LinkButton1.Visible = false; //user login
-                    LinkButton2.Visible = false; //sign up
-                    LinkButton4.Visible = true; //our product
-                    LinkButton5.Visible = true; // about us
-                    LinkButton7.Visible = true; // hello user
-                    LinkButton3.Visible = true; // log out
-                    LinkButton8.Visible = true; //  hair styles
-                    LinkButton13.Visible = true; //  cart page
+                LinkButton1.Visible = false; //user login
+                LinkButton2.Visible = false; //sign up
+                LinkButton4.Visible = true; //our product
+                LinkButton5.Visible = true; // about us
+                LinkButton7.Visible = true; // hello user
+                LinkButton3.Visible = true; // log out
+                LinkButton8.Visible = true; //  hair styles
+                LinkButton13.Visible = true; //  cart page
 
-                    LinkButton7.Text = "Hello " + Session["username"].ToString();
+                LinkButton7.Text = "Hello " + username;
 
-                    LinkButton10.Visible = false;  // user login    
-                    LinkButton6.Visible = false;  // admin login
-                    LinkButton9.Visible = false;  // stuff login
-                    LinkButton11.Visible = false;  //admin management
-                    LinkButton12.Visible = false;  // stuff management 
-                }
-                else if (Session["role"].Equals("admin"))
-                {
-                    LinkButton1.Visible = false; //user login
-                    LinkButton2.Visible = false; //sign up
-                    LinkButton4.Visible = true; //our product
-                    LinkButton5.Visible = true; // about us
-                    LinkButton7.Visible = true; // hello user
-                    LinkButton3.Visible = true; // log out
-                    LinkButton8.Visible = true; //  hair styles
-                    LinkButton13.Visible = false; //  cart page
-
-                    LinkButton7.Text = "Hello Admin";
-
-                    LinkButton10.Visible = false;  // user login    
-                    LinkButton6.Visible = false;  // admin login
-                    LinkButton9.Visible = false;  // stuff login
-                    LinkButton11.Visible = true;  //admin management
-                    LinkButton12.Visible = true;  //stuff management 
-                }
-                else if (Session["role"].Equals("stuff"))
-                {
-                    LinkButton1.Visible = false; //user login
-                    LinkButton2.Visible = false; //sign up
-                    LinkButton4.Visible = true; //our product
-                    LinkButton5.Visible = true; // about us
-                    LinkButton7.Visible = true; // hello user
-                    LinkButton3.Visible = true; // log out
-                    LinkButton8.Visible = true; //  hair styles
-                    LinkButton13.Visible = false; //  cart page
-
-                    LinkButton7.Text = "Hello " + Session["username"].ToString();
-
-                    LinkButton10.Visible = false;  // user login    
-                    LinkButton6.Visible = false;  // admin login
-                    LinkButton9.Visible = false;  // stuff login
-                    LinkButton11.Visible = false;  //admin management
-                    LinkButton12.Visible = true;  // stuff management 
-                }
+                LinkButton10.Visible = false;  // user login
+                LinkButton6.Visible = false;  // admin login
+                LinkButton9.Visible = false;  // stuff login
+                LinkButton11.Visible = false;  //admin management
+                LinkButton12.Visible = false;  // stuff management
             }
-            catch (Exception ex)
+            else if (role == "admin")
             {
-                //Response.Write("<script> alert('" + ex.Message + "'); </script>");
+                LinkButton1.Visible = false; //user login
+                LinkButton2.Visible = false; //sign up
+                LinkButton4.Visible = true; //our product
+                LinkButton5.Visible = true; // about us
+                LinkButton7.Visible = true; // hello user
+                LinkButton3.Visible = true; // log out
+                LinkButton8.Visible = true; //  hair styles
+                LinkButton13.Visible = false; //  cart page
+
+                LinkButton7.Text = "Hello Admin";
+
+                LinkButton10.Visible = false;  // user login
+                LinkButton6.Visible = false;  // admin login
+                LinkButton9.Visible = false;  // stuff login
+                LinkButton11.Visible = true;  //admin management
+                LinkButton12.Visible = true;  //stuff management
+            }
+            else if (role == "stuff")
+            {
+                LinkButton1.Visible = false; //user login
+                LinkButton2.Visible = false; //sign up
+                LinkButton4.Visible = true; //our product
+                LinkButton5.Visible = true; // about us
+                LinkButton7.Visible = true; // hello user
+                LinkButton3.Visible = true; // log out
+                LinkButton8.Visible = true; //  hair styles
+                LinkButton13.Visible = false; //  cart page
+
+                LinkButton7.Text = "Hello " + username;
+
+                LinkButton10.Visible = false;  // user login
+                LinkButton6.Visible = false;  // admin login
+                LinkButton9.Visible = false;  // stuff login
+                LinkButton11.Visible = false;  //admin management
+                LinkButton12.Visible = true;  // stuff management
             }
         }
 
@@ -140,38 +136,9 @@ namespace HairStudio
 
         protected void LinkButton3_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Session["username"] = "";
-                Session["status"] = "";
-                Session["role"] = "";
-
-                LinkButton1.Visible = true; //user login
-                LinkButton2.Visible = true; //sign up
-                LinkButton4.Visible = true; //our product
-                LinkButton5.Visible = true; // about us
-                LinkButton7.Visible = false; // hello user
-                LinkButton3.Visible = false; // log out
-                LinkButton8.Visible = true; //  hair styles
-
-                //LinkButton7.Text = "Hello " + Session["username"].ToString();
-
-                LinkButton10.Visible = true;  // user login    
-                LinkButton6.Visible = true;  // admin login
-                LinkButton9.Visible = true;  // stuff login
-                LinkButton11.Visible = false;  //admin management
-                LinkButton12.Visible = false;  // stuff management
-
-               
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script> alert('" + ex.Message + "'); </script>");
-            }
-
+            Session.Clear();
+            Session.Abandon();
             Response.Redirect("homePage.aspx");
-
-
         }
     }
 }
