@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="HairStudio/Images/mainLogo2.jpg" alt="Hair Studio Logo" width="200"/>
+  <img src="HairStudio/images/mainLogo.png" alt="Hair Studio Logo" width="200"/>
 </p>
 
 <h1 align="center">Hair Studio</h1>
